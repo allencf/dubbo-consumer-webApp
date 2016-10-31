@@ -8,7 +8,22 @@
   <description>dubbo consumer webapp test project</description>
   
   <dependencies>
-  <!-- spring核心依赖 -->
+        
+        <!-- dubbo测试服务依赖 -->
+        <dependency>
+        	<groupId>com.allen.dubbo</groupId>
+        	<artifactId>allen-dubbo-provider-service</artifactId>
+        	<version>1.0.0</version>
+        </dependency>
+        
+        <!-- dubbo依赖 -->
+	  	<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>dubbo</artifactId>
+			<version>2.5.3</version>
+		</dependency>
+        
+        <!-- spring核心依赖 -->
 	    <dependency>
 	        <groupId>org.springframework</groupId>
 	        <artifactId>spring-core</artifactId>

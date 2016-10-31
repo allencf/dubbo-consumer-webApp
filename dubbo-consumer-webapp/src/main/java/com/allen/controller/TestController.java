@@ -1,15 +1,21 @@
 package com.allen.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.allen.dubbo.service.DubboTestService;
 
 import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("consumer")
 public class TestController {
+	
+	@Autowired
+	private DubboTestService dubboTestService;
 	
 	
 	@RequestMapping(value ="/test" , method = RequestMethod.POST)

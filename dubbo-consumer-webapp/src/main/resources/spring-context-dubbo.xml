@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+ 
+    <description>operation模块Dubbo服务配置 </description>
+    <dubbo:application name="consumer-Webapp" owner="aller" /> 
+    <dubbo:consumer timeout="3000"/>
+    <dubbo:registry  protocol="zookeeper" address="zookeeper://127.0.0.1:2182" />
+    <!-- <dubbo:protocol name="dubbo" port="${app.port}" register="${service.register}"/> -->  
+    
+    <dubbo:service interface="com.allen.dubbo.service.DubboTestService" ref="dubboTestServiceImpl" check="false" />
+ 
+	
+</beans>
