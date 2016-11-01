@@ -5,9 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.allen.dubbo.service.DubboTestService;
-
 import net.sf.json.JSONObject;
 
 @Controller
@@ -23,7 +21,12 @@ public class TestController {
 	public String testMethod(){
 	    JSONObject object = new JSONObject();
 		object.put("executeStatus", 1);
-		object.put("msg", "操作成功!!!");
+		String msg = dubboTestService.sayHello();
+		if(msg != null){
+			object.put("msg", msg);
+		}else{
+			object.put("msg", "操作成功!!!");
+		}
 		return object.toString();	
 	}
 	

@@ -11,7 +11,7 @@
     <dubbo:registry  protocol="zookeeper" address="zookeeper://127.0.0.1:2182" />
     <!-- <dubbo:protocol name="dubbo" port="${app.port}" register="${service.register}"/> -->  
     
-    <dubbo:service interface="com.allen.dubbo.service.DubboTestService" ref="dubboTestServiceImpl" check="false" />
+    <dubbo:reference id="dubboTestService" interface="com.allen.dubbo.service.DubboTestService" check="false" />
  
 	
 </beans>
