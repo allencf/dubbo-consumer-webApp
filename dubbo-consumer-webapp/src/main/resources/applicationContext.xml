@@ -13,31 +13,30 @@
     http://www.springframework.org/schema/aop  http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
     
     
-     <!-- 启动包扫描功能，以便注册带有@Controller、@Service、@repository、@Component等注解的类成为spring的bean -->  
-     <context:component-scan base-package="com.allen.controller"  use-default-filters="false">
-     	<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-     </context:component-scan>  
+    <!-- 启动包扫描功能，以便注册带有@Controller、@Service、@repository、@Component等注解的类成为spring的bean -->  
+    <context:component-scan base-package="com.allen.controller"  use-default-filters="false">
+         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
 
-	 <!-- 启动注解驱动的Spring MVC功能，注册请求url和注解POJO类方法的映射-->  
-     <mvc:annotation-driven>
-     	<mvc:message-converters register-defaults="true">
-			<!-- 将StringHttpMessageCOnverter的默认编码设为UTF-8 -->
-			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
-				<constructor-arg value="UTF-8" />
-			</bean>
+	<!-- 启动注解驱动的Spring MVC功能，注册请求url和注解POJO类方法的映射-->  
+   <!--  <mvc:annotation-driven>
+         <mvc:message-converters register-defaults="true">
+		   将StringHttpMessageCOnverter的默认编码设为UTF-8
+		   <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+			   <constructor-arg value="UTF-8" />
+		   </bean>
 		</mvc:message-converters>
-		
-     </mvc:annotation-driven>  
-
+    </mvc:annotation-driven>
+ -->
      
-     <!-- 对模型视图名称的解析，在请求时模型视图名称添加前后缀 -->  
-     <!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/view/" p:suffix=".jsp" />   -->
+    <!-- 对模型视图名称的解析，在请求时模型视图名称添加前后缀 -->  
+    <!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/view/" p:suffix=".jsp" />   -->
      
-     <!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->  
-     <!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" >  
+    <!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->  
+    <!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" >  
         <property name="prefix" value="/"></property>  
         <property name="suffix" value=".jsp"></property>  
-     </bean>   -->
+    </bean>   -->
 
 
 </beans>
