@@ -17,7 +17,7 @@
 	<!-- 设置sping容器加载配制文件路径(全局参数配置区) -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:applicationContext.xml,classpath:spring-context-dubbo.xml</param-value>
+		<param-value>classpath:application-context.xml</param-value>
 	</context-param>
 	
 	<!-- 配置spring核心servlet -->
@@ -27,7 +27,7 @@
 		<!-- 不指定 <init-param> 会自动找web.xml相同路径下 spring-mvc.xml文件 -->  
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:applicationContext.xml</param-value>
+			<param-value>classpath:application-context.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>

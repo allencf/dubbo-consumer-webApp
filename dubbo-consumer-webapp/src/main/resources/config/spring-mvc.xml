@@ -15,32 +15,42 @@
     <!-- 加载配置属性文件 -->
 	<!-- <context:property-placeholder ignore-unresolvable="true" location="classpath:/web-app.properties" /> -->
 	
+	<!-- 启动包扫描功能，以便注册带有@Controller、@Service、@repository、@Component等注解的类成为spring的bean -->  
 	<!-- 使用Annotation自动注册Bean,只扫描@Controller -->
 	<context:component-scan base-package="com.allen.controller" use-default-filters="false"><!-- base-package 如果多个，用“,”分隔 -->
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 	
 	
-	<!-- 默认的注解映射的支持，org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -->
+	<!--  启动注解驱动的Spring MVC功能，注册请求url和注解POJO类方法的映射   
+	 默认的注解映射的支持，org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -->
 	<mvc:annotation-driven>
 		<mvc:message-converters register-defaults="true">
 			<!-- 将StringHttpMessageCOnverter的默认编码设为UTF-8 -->
 			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
 				<constructor-arg value="UTF-8" />
 			</bean>
-			<bean class="com.qida.learning.common.convert.JsonCacheConverter"/>
+			<!-- <bean class="com.qida.learning.common.convert.JsonCacheConverter"/> -->
 		</mvc:message-converters>
-		
-		<mvc:argument-resolvers>
+		<!-- <mvc:argument-resolvers>
          	<bean class="com.qida.common.web.security.xss.XSSHandlerMethodArgumentResolver"/>
-    	</mvc:argument-resolvers>
+    	</mvc:argument-resolvers> -->
 	</mvc:annotation-driven>
 	
-	<mvc:interceptors>
+	<!-- <mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/crs/courses/**"/>
 			<bean class="com.qida.learning.common.interceptor.JsonCacheInterceptor"/>
 		</mvc:interceptor>
-	</mvc:interceptors>
+	</mvc:interceptors> -->
+	
+	<!-- 对模型视图名称的解析，在请求时模型视图名称添加前后缀 -->  
+    <!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/view/" p:suffix=".jsp" />   -->
+     
+    <!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->  
+    <!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" >  
+        <property name="prefix" value="/"></property>  
+        <property name="suffix" value=".jsp"></property>  
+    </bean>   -->
 
 </beans>
