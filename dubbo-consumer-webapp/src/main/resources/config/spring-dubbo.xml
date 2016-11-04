@@ -6,12 +6,15 @@
 	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
  
     <description>operation模块Dubbo服务配置 </description>
-    <dubbo:application name="consumer-Webapp" owner="aller" /> 
+    <dubbo:application name="consumer-Webapp" owner="allen" /> 
     <dubbo:consumer timeout="3000"/>
-    <dubbo:registry  protocol="zookeeper" address="zookeeper://127.0.0.1:2182" />
+    <dubbo:registry  protocol="zookeeper" address="${zookeeper.registry.address}" />
     <!-- <dubbo:protocol name="dubbo" port="${app.port}" register="${service.register}"/> -->  
     
     <dubbo:reference id="dubboTestService" interface="com.allen.dubbo.service.DubboTestService" check="false" />
+    
+    <!-- 通过dubbo注解方式 -->
+    <!-- <dubbo:annotation package="com.allen.controller" /> -->
  
 	
 </beans>
