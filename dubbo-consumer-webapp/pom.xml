@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.allen.dubbo</groupId>
   <artifactId>dubbo-consumer-webapp</artifactId>
@@ -21,6 +23,20 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>dubbo</artifactId>
 			<version>2.5.3</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+  	
+	  	<!-- 连接zookeeper的客户端 -->
+		<dependency>
+		    <groupId>com.github.sgroschupf</groupId>
+		    <artifactId>zkclient</artifactId>
+		    <version>0.1</version>
 		</dependency>
         
         <!-- spring核心依赖 -->
@@ -30,21 +46,21 @@
 	        <version>4.2.5.RELEASE</version>
 	    </dependency> 
 	    
-		<dependency>
-	        <groupId>org.springframework</groupId>
-	        <artifactId>spring-jdbc</artifactId>
-	        <version>4.1.4.RELEASE</version>
-	    </dependency>
-	    
 	    <dependency>
 	        <groupId>org.springframework</groupId>
 	        <artifactId>spring-web</artifactId>
 	        <version>4.1.4.RELEASE</version>
 	    </dependency>
-	     
+	    
 	    <dependency>
 	        <groupId>org.springframework</groupId>
 	        <artifactId>spring-webmvc</artifactId>
+	        <version>4.1.4.RELEASE</version>
+	    </dependency>
+	    
+		<dependency>
+	        <groupId>org.springframework</groupId>
+	        <artifactId>spring-jdbc</artifactId>
 	        <version>4.1.4.RELEASE</version>
 	    </dependency>
 	    
@@ -90,16 +106,45 @@
       		<version> 1.6.9</version >  
 		</dependency> 
 		
+		<!-- commons-beanutils-core包依赖  -->
+		<!-- <dependency>
+			<groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils-core</artifactId>
+            <version>1.8.3</version>
+		</dependency> -->
+		
 		<!-- JSON相关依赖 -->
 		<dependency>
 		   <groupId>net.sf.json-lib</groupId>
    		   <artifactId>json-lib</artifactId>
    		   <classifier>jdk15</classifier>
            <version>2.4</version>
+           <!-- <exclusions>
+           		<exclusion>
+           			<groupId>commons-beanutils</groupId>
+                    <artifactId>commons-beanutils</artifactId>
+           		</exclusion>
+           </exclusions> -->
+		</dependency>
+		
+		<dependency>
+		     <groupId>org.codehaus.jackson</groupId>
+		     <artifactId>jackson-core-asl</artifactId>
+		     <version>1.9.13</version>
+		</dependency>
+        <dependency>
+             <groupId>org.codehaus.jackson</groupId>
+             <artifactId>jackson-mapper-asl</artifactId>
+             <version>1.9.13</version>
+        </dependency>
+		<dependency>
+		     <groupId>com.fasterxml.jackson.core</groupId>
+		     <artifactId>jackson-databind</artifactId>
+		     <version>2.8.0</version>
 		</dependency>
   
-	   <!-- log4j相关依赖 -->
-	   <dependency>
+	    <!-- log4j相关依赖 -->
+	    <dependency>
 	      <groupId>log4j</groupId>
 	      <artifactId>log4j</artifactId>
 	      <version>1.2.14</version>
@@ -118,7 +163,7 @@
 	          <groupId>com.sun.jdmk</groupId>
 	        </exclusion>
 	      </exclusions>
-	   </dependency>
+	    </dependency>
     
     </dependencies>
   
