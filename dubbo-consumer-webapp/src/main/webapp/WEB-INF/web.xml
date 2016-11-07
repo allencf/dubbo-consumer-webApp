@@ -9,16 +9,23 @@
 	
 	<!-- <mvc:default-servlet-handler /> -->
 	
-	<!--加载spring容器配置 -->
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-	
 	<!-- 设置sping容器加载配制文件路径(全局参数配置区) -->
+	<context-param>
+		<param-name>logbackConfigLocation</param-name>
+		<param-value>classpath:logback.xml</param-value>
+	</context-param>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:application-context.xml</param-value>
 	</context-param>
+	
+	<!--加载spring容器配置 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<listener>
+        <listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>
+    </listener>
 	
 	<!-- 配置spring核心servlet -->
 	<servlet>
