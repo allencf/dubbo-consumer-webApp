@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.allen.dubbo.service.DubboTestService;
 import net.sf.json.JSONObject;
 
@@ -16,7 +15,6 @@ import net.sf.json.JSONObject;
 public class TestController {
 	
 	private final static Logger logger = LoggerFactory.getLogger(TestController.class);
-	
 	
 	//dubbo注解方式
 	/*@Reference(version = "1.0.0")
@@ -38,11 +36,12 @@ public class TestController {
 		}else{
 			object.put("msg", "操作成功!!!");
 		}
+		logger.info("结束调用testMethod方法----------------");
 		return object.toString();	
 	}
 	
 	public static void main(String[] args) {
-		logger.info("test ================");
+		logger.debug("test ================");
 	}
 
 }
