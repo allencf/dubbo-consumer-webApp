@@ -47,6 +47,31 @@ public class TestController {
 		return object.toString();	
 	}
 	
+	@RequestMapping(value ="/test2" , method = RequestMethod.POST)
+	@ResponseBody
+	public String testMethod2(){
+	    logger.info("开始调用testMethod方法------------------");
+		
+		JSONObject object = new JSONObject();
+		object.put("executeStatus", 1);
+		try {
+			String msg = dubboTestService.sayHello();
+			if(msg != null){
+				object.put("msg", msg);
+			}else{
+				object.put("msg", "操作成功!!!");
+			}
+		} 
+		catch (Exception e) {
+			logger.info("操作异常,异常信息:" + e.getMessage(),e);
+			object.put("msg", e.getMessage());
+		}
+		
+		logger.info("结束调用testMethod方法----------------");
+		return object.toString();	
+	}
+	
+	
 	public static void main(String[] args) {
 		logger.info("test ================");
 	}
