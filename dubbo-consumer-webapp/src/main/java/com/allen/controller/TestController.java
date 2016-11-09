@@ -30,12 +30,19 @@ public class TestController {
 		
 		JSONObject object = new JSONObject();
 		object.put("executeStatus", 1);
-		String msg = dubboTestService.sayHello();
-		if(msg != null){
-			object.put("msg", msg);
-		}else{
-			object.put("msg", "操作成功!!!");
+		try {
+			String msg = dubboTestService.sayHello();
+			if(msg != null){
+				object.put("msg", msg);
+			}else{
+				object.put("msg", "操作成功!!!");
+			}
+		} 
+		catch (Exception e) {
+			logger.info("操作异常,异常信息:" + e.getMessage(),e);
+			object.put("msg", e.getMessage());
 		}
+		
 		logger.info("结束调用testMethod方法----------------");
 		return object.toString();	
 	}
