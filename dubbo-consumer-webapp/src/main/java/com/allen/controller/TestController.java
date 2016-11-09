@@ -48,7 +48,7 @@ public class TestController {
 	}
 	
 	public static void main(String[] args) {
-		logger.debug("test ================");
+		logger.info("test ================");
 	}
 
 }

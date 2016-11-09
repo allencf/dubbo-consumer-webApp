@@ -21,7 +21,6 @@
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 	
-	
 	<!--  启动注解驱动的Spring MVC功能，注册请求url和注解POJO类方法的映射   
 	 默认的注解映射的支持，org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -->
 	<mvc:annotation-driven>
@@ -40,14 +39,12 @@
 	<!-- springMVC 拦截器 -->
 	<mvc:interceptors>
 		<bean class="com.allen.interceptor.ApplicationInterceptor" />
+		<mvc:interceptor>
+			<mvc:mapping path="/consumer/**"/>
+			<bean class="com.allen.interceptor.SecurityInterceptor" />
+		</mvc:interceptor>
 	</mvc:interceptors>
 	
-	<!-- <mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="/crs/courses/**"/>
-			<bean class="com.qida.learning.common.interceptor.JsonCacheInterceptor"/>
-		</mvc:interceptor>
-	</mvc:interceptors> -->
 	
 	<!-- 对模型视图名称的解析，在请求时模型视图名称添加前后缀 -->  
     <!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/view/" p:suffix=".jsp" />   -->
