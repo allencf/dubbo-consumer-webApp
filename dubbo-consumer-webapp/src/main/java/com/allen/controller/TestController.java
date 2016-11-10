@@ -12,7 +12,7 @@ import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("consumer")
-public class TestController {
+public class TestController extends BaseController{
 	
 	private final static Logger logger = LoggerFactory.getLogger(TestController.class);
 	
@@ -52,7 +52,7 @@ public class TestController {
 	public String testMethod2(){
 	    logger.info("开始调用testMethod方法------------------");
 		
-		JSONObject object = new JSONObject();
+	    JSONObject object = new JSONObject();
 		object.put("executeStatus", 1);
 		try {
 			String msg = dubboTestService.sayHello();
@@ -68,7 +68,8 @@ public class TestController {
 		}
 		
 		logger.info("结束调用testMethod方法----------------");
-		return object.toString();	
+		throw new RuntimeException("系统异常");		
+		//return object.toString();	
 	}
 	
 	
