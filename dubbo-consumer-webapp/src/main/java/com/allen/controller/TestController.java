@@ -12,7 +12,7 @@ import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("consumer")
-public class TestController extends BaseController{
+public class TestController {
 	
 	private final static Logger logger = LoggerFactory.getLogger(TestController.class);
 	

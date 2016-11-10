@@ -10,8 +10,11 @@ public class ExceptionHandler implements HandlerExceptionResolver {
 
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,Exception ex) {
-		// TODO Auto-generated method stub
-		return null;
+		ModelAndView result = new ModelAndView(); 
+		result.addObject("executeStatus", 2);
+		result.addObject("code", "00010100");
+		result.addObject("msg", ex.getMessage());
+		return result;
 	}
 
 }
