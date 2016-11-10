@@ -8,9 +8,10 @@
     <description>operation模块Dubbo服务配置 </description>
     <dubbo:application name="consumer-Webapp" owner="allen" /> 
     
-    <dubbo:consumer timeout="3000" check="true" />
+    <dubbo:consumer timeout="3000" check="false" />
     
-    <dubbo:registry  protocol="dubbo" address="${zookeeper.registry.address}"  check="true" />
+    <!-- address="${zookeeper.registry.address}" -->
+    <dubbo:registry  protocol="dubbo" address="${zookeeper.registry.address}" check="false" />
     
     <!-- <dubbo:protocol name="dubbo" port="${app.port}" register="${service.register}"/> -->  
     
