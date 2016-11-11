@@ -47,8 +47,8 @@ public class TestController {
 		return object.toString();	
 	}
 	
-	@RequestMapping(value ="/test2" , method = RequestMethod.POST)
-	@ResponseBody
+	@RequestMapping(value ="/test2" , method = RequestMethod.GET)
+	//@ResponseBody
 	public String testMethod2(){
 	    logger.info("开始调用testMethod方法------------------");
 		
