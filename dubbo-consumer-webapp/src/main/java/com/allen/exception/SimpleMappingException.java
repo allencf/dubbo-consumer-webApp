@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import com.allen.utils.Strings;
-
 import net.sf.json.JSON;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
@@ -62,13 +61,14 @@ public class SimpleMappingException extends SimpleMappingExceptionResolver{
         	object.put("executeStatus", 1);
         	object.put("code", "1111111");
         	object.put("msg", ex.getMessage());
-        	/*try {
-        		PrintWriter writer = response.getWriter();  
+        	try {
+        		/*PrintWriter writer = response.getWriter();  
                 writer.write(object.toString());  
-                writer.flush();  
+                writer.flush();
+                writer.close();*/
 			} catch (Exception e) {
 				// TODO: handle exception
-			}*/
+			}
         	JSON json = JSONSerializer.toJSON(object);
         	renderJson(response, json.toString(), new String[0]);
             return null;  
