@@ -66,10 +66,14 @@ public class LinkedAndQueue {
 		}
 		
 		Node temp = head;
-		if(temp.nextNode !=null){
+		while(temp.nextNode != null){
 			temp = temp.nextNode;
 		}
+		if(temp.nextNode !=null){
+			//temp = temp.nextNode;
+		}
 		temp.nextNode = node;
+		System.out.println(head.toString());
 	}
 	
 	
