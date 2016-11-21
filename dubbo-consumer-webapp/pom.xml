@@ -18,12 +18,6 @@
   
   <dependencies>
         
-        <dependency>
-        	<groupId>com.allen.commons</groupId>
-        	<artifactId>allen-commons-exception</artifactId>
-        	<version>1.0.0-SNAPSHOT</version>
-        </dependency>
-        
         <!-- dubbo测试服务依赖 -->
         <dependency>
         	<groupId>com.allen.dubbo</groupId>
@@ -71,18 +65,6 @@
 		   <version>${spring.context.version}</version>
 		</dependency>
 		
-		<!-- <dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-beans</artifactId>
-		    <version>4.1.4.RELEASE</version>
-		</dependency>
-		
-		<dependency>
-		   <groupId>org.springframework</groupId>
-		   <artifactId>spring-tx</artifactId>
-		   <version>4.1.4.RELEASE</version>
-		</dependency> -->
-	    
 	    <dependency>
 	        <groupId>org.springframework</groupId>
 	        <artifactId>spring-webmvc</artifactId>
@@ -157,6 +139,7 @@
              <artifactId>jackson-mapper-asl</artifactId>
              <version>1.9.13</version>
         </dependency>
+		
 		<dependency>
 		     <groupId>com.fasterxml.jackson.core</groupId>
 		     <artifactId>jackson-databind</artifactId>
