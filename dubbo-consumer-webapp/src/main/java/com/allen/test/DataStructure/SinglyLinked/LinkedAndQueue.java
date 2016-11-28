@@ -1,5 +1,8 @@
 package com.allen.test.DataStructure.SinglyLinked;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 模拟单向链表
  * All rights Reserved, Designed By HQYG
@@ -105,6 +108,8 @@ public class LinkedAndQueue {
 		if(link.head.getNextNode() != null){
 			System.out.println("link head nextNode content:" + link.head.getNextNode().getContent());
 		}
+		
+		List<String> list = new ArrayList<>();
 
 	}
 
