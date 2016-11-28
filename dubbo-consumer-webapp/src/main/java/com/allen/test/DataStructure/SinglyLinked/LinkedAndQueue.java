@@ -1,4 +1,4 @@
-package com.allen.test;
+package com.allen.test.DataStructure.SinglyLinked;
 
 /**
  * 模拟单向链表
