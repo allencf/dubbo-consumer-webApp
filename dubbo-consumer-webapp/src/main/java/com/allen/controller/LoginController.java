@@ -1,4 +1,4 @@
-package com.allen.controller;
+/*package com.allen.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +20,9 @@ public class LoginController {
 	private final static Logger logger = LoggerFactory.getLogger(LoginController.class);
 	
 	
-	/**
+	*//**
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
 	public JSON doLogin(String userName,String password,Model model){
@@ -33,8 +33,8 @@ public class LoginController {
 	
 	
 	//dubbo注解方式
-	/*@Reference(version = "1.0.0")
-	private DubboTestService dubboTestService;*/
+	@Reference(version = "1.0.0")
+	private DubboTestService dubboTestService;
 	
 	@Autowired
 	private DubboTestService dubboTestService;
@@ -94,3 +94,4 @@ public class LoginController {
 	}
 
 }
+*/

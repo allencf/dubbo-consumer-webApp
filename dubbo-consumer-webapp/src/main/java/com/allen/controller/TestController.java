@@ -4,10 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.allen.dubbo.service.DubboTestService;
 
 import net.sf.json.JSON;
@@ -20,6 +23,8 @@ public class TestController {
 	
 	private final static Logger logger = LoggerFactory.getLogger(TestController.class);
 	
+	private static ClassPathXmlApplicationContext context;
+	
 	
 	@Value("${zookeeper.registry.address}")
 	String zkAddress;
@@ -31,6 +36,8 @@ public class TestController {
 	
 	@Autowired
 	private DubboTestService dubboTestService;
+
+	
 	
 	@RequestMapping(value ="/test" , method = RequestMethod.POST)
 	@ResponseBody
@@ -84,6 +91,11 @@ public class TestController {
 	
 	
 	public static void main(String[] args) {
+		context = new ClassPathXmlApplicationContext("classpath:application-context.xml");
+		context.start();
+		DubboTestService testService = (DubboTestService) context.getBean("dubboTestService");
+		String msg = testService.sayHello();
+		System.out.println(msg);
 		logger.info("test ================");
 	}
 
