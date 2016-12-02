@@ -9,14 +9,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.allen.commons.event.annotation.ClassEvent;
+import com.allen.commons.event.annotation.MethodEvent;
 import com.allen.dubbo.service.DubboTestService;
-
 import net.sf.json.JSON;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
+@ClassEvent
 @Controller
 @RequestMapping("consumer")
 public class TestController {
@@ -24,7 +25,6 @@ public class TestController {
 	private final static Logger logger = LoggerFactory.getLogger(TestController.class);
 	
 	private static ClassPathXmlApplicationContext context;
-	
 	
 	@Value("${zookeeper.registry.address}")
 	String zkAddress;
@@ -39,6 +39,7 @@ public class TestController {
 
 	
 	
+	@MethodEvent
 	@RequestMapping(value ="/test" , method = RequestMethod.POST)
 	@ResponseBody
 	public JSON testMethod(){

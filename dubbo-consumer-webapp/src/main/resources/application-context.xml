@@ -26,6 +26,16 @@
         <property name="properties" ref="configProperties" />
     </bean>
     
+    
+    <aop:config>
+    	<aop:pointcut id="annonationCut" expression="@annotation(com.allen.commons.event.annotation.MethodEvent)" />
+    	<aop:advisor  advice-ref="methodEventDispatcher" pointcut-ref="annonationCut"/>
+    </aop:config>
+    
+    <bean id="methodEventDispatcher" class="com.allen.commons.event.aop.AopMethodEventDispatcher" />
+    
+    
+    
    <!-- 导入资源文件 -->
    <import resource="classpath:/config/spring-mvc.xml"/>
    <import resource="classpath:/config/spring-dubbo.xml"/>
