@@ -17,9 +17,10 @@ import net.sf.json.JSON;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
-@ClassEvent
+
 @Controller
 @RequestMapping("consumer")
+@ClassEvent
 public class TestController {
 	
 	private final static Logger logger = LoggerFactory.getLogger(TestController.class);

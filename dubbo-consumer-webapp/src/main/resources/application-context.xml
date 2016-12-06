@@ -26,13 +26,18 @@
         <property name="properties" ref="configProperties" />
     </bean>
     
-    
+    <!-- AOP拦截配置 -->
     <aop:config>
     	<aop:pointcut id="annonationCut" expression="@annotation(com.allen.commons.event.annotation.MethodEvent)" />
     	<aop:advisor  advice-ref="methodEventDispatcher" pointcut-ref="annonationCut"/>
     </aop:config>
     
     <bean id="methodEventDispatcher" class="com.allen.commons.event.aop.AopMethodEventDispatcher" />
+    
+    
+    <bean id="beanDefineLoader" class="com.allen.commons.spring.TestBeanDefineLoader">
+    	<property name="packagePath" value="com.allen.controller"/>
+    </bean>
     
     
     
