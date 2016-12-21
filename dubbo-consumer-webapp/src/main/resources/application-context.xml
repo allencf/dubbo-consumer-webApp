@@ -40,7 +40,6 @@
     </bean>
     
     
-    
    <!-- 导入资源文件 -->
    <import resource="classpath:/config/spring-mvc.xml"/>
    <import resource="classpath:/config/spring-dubbo.xml"/>
