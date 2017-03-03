@@ -1,7 +1,5 @@
 package com.allen.test;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class Test {
 	
@@ -19,8 +17,12 @@ public class Test {
 
 
 
+	public Test() {
+	}
+
+
 	public static void main(String[] args) {
-		int i = 0x00000001;
+		/*int i = 0x00000001;
 		System.out.println(0 & i);
 		//boolean flag = 1 & i;
 		
@@ -41,6 +43,18 @@ public class Test {
 		test2.setName("viney");
 		
 		System.out.println(test.getName());
+		*/
+		int a = (int)3.9;
+		
+		System.out.println(a);
+		
+		
+		long temp = (int)3.9;
+		
+		temp%=2;
+		System.out.println(temp);
+		
+		System.out.println(4&7);
 		
 	}
 
