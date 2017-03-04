@@ -19,6 +19,19 @@ public class Test {
 
 	public Test() {
 	}
+	
+	public String getaValue(){
+		String value = "";
+		try {
+			value ="test1";
+			return value;
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally{
+			value = "test12";
+		}
+		return value;
+	}
 
 
 	public static void main(String[] args) {
@@ -46,15 +59,20 @@ public class Test {
 		*/
 		int a = (int)3.9;
 		
-		System.out.println(a);
+		//System.out.println(a);
 		
 		
 		long temp = (int)3.9;
 		
 		temp%=2;
-		System.out.println(temp);
+		//System.out.println(temp);
 		
-		System.out.println(4&7);
+		//System.out.println(4&7);
+		
+		System.out.println(Math.round(10.2));
+		
+		//Math.round(12.376*Math.round(10.2))/Math.round(10.2);	
+		
 		
 	}
 
