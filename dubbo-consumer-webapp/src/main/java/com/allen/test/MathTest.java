@@ -43,7 +43,14 @@ public class MathTest implements Serializable {
 	public static void main(String[] args) {
 		//mathRound(-3.6d);
 		//mathFloor(-3.1d);
-		mathCeil(4.0);
+		//mathCeil(4.0);
+		//d*Math.round(10.2);
+		String a = "abc";
+		String b = "def";
+		String c = "abc" + "def";
+		String d = a + b;
+		String e = "abcdef";
+		System.out.println(c == e);
 	}
 
 }
