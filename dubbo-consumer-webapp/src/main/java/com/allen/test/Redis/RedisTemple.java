@@ -6,6 +6,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.RedisTemplate;
+import com.alibaba.fastjson.JSON;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -48,6 +53,9 @@ public class RedisTemple {
 	private static Integer port = 6379;
 	
 	
+	private RedisTemplate redisTemplate;
+	
+	
 	/**
 	 * 获取jedis对象
 	 * @return
@@ -78,6 +86,22 @@ public class RedisTemple {
 			//jedisPool.returnResource(jedis);
 		}
 	} 
+	
+	
+	@SuppressWarnings("unchecked")
+	public String saveTestBean(TestBean1 test){
+		return (String) redisTemplate.execute(new RedisCallback<String>(){
+		
+			@Override
+			public String doInRedis(RedisConnection connection) throws DataAccessException {
+				byte[] key = getKey(String.valueOf(test.getId()));
+				byte[] value = com.alibaba.fastjson.JSON.toJSONString(test).getBytes();
+				connection.set(key, value);
+				return null;
+			}
+	   });
+		
+	}
 	
 	
 	public static void set(String key,String value){
@@ -159,10 +183,27 @@ public class RedisTemple {
           return null;
     }
 	
+	public TestBean1 getTestBean(Integer id,String name){
+		return TestBean1.getInstance(id, name);
+	}
 	
+	
+	public static byte[] getKey(String id){
+		return ("HQYG:Allen:" + id).getBytes();
+	}
+    
+    
 	public static void main(String[] args) {
 		Jedis jedis = getJedis();
-		jedis.set("allen", "aaa");
+		//jedis.set("allen", "aaa");
+		
+		TestBean1 test = TestBean1.getInstance(12, "allen");
+		byte[] key   = getKey(String.valueOf(test.getId()));
+		byte[] value = JSON.toJSONString(test).getBytes();
+		
+		jedis.set(key, value);
+		logger.info("操作成功!!!");
 	}
+	
 
 }

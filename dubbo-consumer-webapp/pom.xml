@@ -83,6 +83,19 @@
             <version>2.5</version>
 	    </dependency>
 	    
+	    <!-- spring-redis依赖 -->
+	    <dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<version>1.8.0.RELEASE</version>
+		</dependency>
+		
+		<!-- fastjson依赖 -->	    
+	    <dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.9</version>
+		</dependency>
 	    
 	    <!-- spring shiro -->
 	    <dependency>
