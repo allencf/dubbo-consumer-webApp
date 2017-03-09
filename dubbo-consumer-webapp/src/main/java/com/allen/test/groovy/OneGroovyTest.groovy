@@ -2,6 +2,8 @@ package com.allen.test.groovy
 
 import java.lang.annotation.Repeatable
 
+import com.sun.xml.internal.bind.v2.runtime.RuntimeUtil.ToStringAdapter
+
 /**
  *
  * All rights Reserved, Designed By HQYG
@@ -29,9 +31,13 @@ class OneGroovyTest {
 		}
 	}
 	
+	def ot = new OneGroovyTest('name':'viney','age':19);
+	//ot.toString();
+	//ot.repeat(var)
+	
 	//repeat(var2)
 	
-	public static void main(def args){
+	static void main(def args){
 	  
 		 println "hello world"
 		 
@@ -72,3 +78,5 @@ class OneGroovyTest {
     }
 
 }
+
+
