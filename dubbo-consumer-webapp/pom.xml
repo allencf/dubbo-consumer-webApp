@@ -18,6 +18,25 @@
   
   <dependencies>
         
+        <!-- groovy依赖 start -->
+        <dependency>  
+		    <groupId>org.codehaus.groovy</groupId>  
+		    <artifactId>groovy</artifactId>  
+		    <version>2.4.7</version>  
+		</dependency>  
+		<!-- <dependency>  
+		    <groupId>org.codehaus.groovy</groupId>  
+		    <artifactId>groovy-all</artifactId>  
+		    <version>2.4.7</version>  
+		</dependency>   -->
+		<!-- <dependency>  
+		    <groupId>org.codehaus.groovy</groupId>  
+		    <artifactId>groovy-jsr223</artifactId>  
+		    <version>2.1.6</version>  
+		</dependency> -->
+		<!-- groovy依赖 end -->
+        
+        
         <!-- dubbo测试服务依赖 -->
         <dependency>
         	<groupId>com.allen.dubbo</groupId>
