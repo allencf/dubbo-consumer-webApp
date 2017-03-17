@@ -1,13 +1,10 @@
 package com.allen.test.groovy.util;
 
 import java.io.IOException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import groovy.lang.GroovyObject;
 import groovy.util.GroovyScriptEngine;
-import groovy.util.ResourceException;
 
 /**
  * GroovyCommonUtil操作的一个工具类
@@ -18,7 +15,12 @@ import groovy.util.ResourceException;
  * Createdate:  2017年3月10日上午9:08:44
  */
 public class GroovyCommonUtil {
+	
+	//eclipse安装groovy插件
+	//http://blog.csdn.net/qq_27645299/article/details/50250723
+	//进入https://github.com/groovy/groovy-eclipse/wiki查找和自己eclipse对应版本的groovy
 
+	
 	private static final Logger log = LoggerFactory.getLogger(GroovyCommonUtil.class);
     //该变量用于指明groovy脚本所在的父目录
     static String root[]=new String[]{"bin/groovy/"};  
@@ -62,13 +64,12 @@ public class GroovyCommonUtil {
 	        log.warn("执行方法" + methodName + "出现异常", e);
 	        throw new Exception("调用方法[" + methodName + "]失败");
 	    }
-	
 	    return ret;
 	}
 	
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
