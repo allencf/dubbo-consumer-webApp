@@ -6,8 +6,8 @@ public class Person implements Serializable {
 
 	private static final long serialVersionUID = -7898970346255065804L;
 	
-	private String name;
-	private String address;
+	private String  name;
+	private String  address;
 	private Integer age;
 	    
     public Person(String name, String addr, Integer age){
