@@ -4,16 +4,12 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
-
-import com.alibaba.fastjson.JSON;
-
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -62,7 +58,7 @@ private static final Logger logger = LoggerFactory.getLogger(RedisTemple.class);
 	 */
 	private static Integer port = 6379;
 	
-	
+	@SuppressWarnings("rawtypes")
 	private RedisTemplate redisTemplate;
 	
 	
@@ -113,12 +109,12 @@ private static final Logger logger = LoggerFactory.getLogger(RedisTemple.class);
 	}
 
 	
-	public Long expire(String key,int expireTime){
+	public static Long expire(String key,int expireTime){
 		return getJedis().expire(key, expireTime);
 	}
 	
 	
-	public Long expire(byte[] key,int expireTime){
+	public static Long expire(byte[] key,int expireTime){
 		return getJedis().expire(key, expireTime);
  	}
 	
@@ -253,7 +249,9 @@ private static final Logger logger = LoggerFactory.getLogger(RedisTemple.class);
 		
 		//System.out.println(setnx("allen1", "viney"));
 		//System.out.println(getString("allen"));
-		System.out.println(getSet("allen12", "1"));
+		//System.out.println(getSet("allen12", "1"));
+		expire("allen1", 1000*10);
+		
 	}
 
 }
