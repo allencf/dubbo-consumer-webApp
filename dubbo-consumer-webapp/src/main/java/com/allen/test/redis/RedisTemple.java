@@ -1,4 +1,4 @@
-package com.allen.test.Redis;
+package com.allen.test.redis;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
