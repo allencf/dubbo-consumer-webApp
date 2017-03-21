@@ -24,9 +24,14 @@ import redis.clients.jedis.JedisPoolConfig;
  */
 public class RedisClient {
 	
-private static final Logger logger = LoggerFactory.getLogger(RedisTemple.class);
+private static final Logger logger = LoggerFactory.getLogger(RedisClient.class);
 	
-	private static JedisPoolConfig jedisPoolConfig;
+	private static RedisClient redisClient;
+
+    private static JedisPoolConfig jedisPoolConfig;
+	
+	private static JedisPool jedisPool;
+	
 	
 	/**
 	 * jedis对象
@@ -34,19 +39,19 @@ private static final Logger logger = LoggerFactory.getLogger(RedisTemple.class);
 	private static Jedis jedis;
 	
 	/**
-	 * 最大连接数
+	 * 最大连接数(可用连接实列的最大数目,为负值时没有限制)
 	 */
-	private static Integer maxActive = 1000;
+	private static Integer maxActive = 2000;
 	
 	/**
-	 * 最大空闲数
+	 * 最大空闲数(空闲连接实列的最大数目,为负值时没有限制)
 	 */
 	private static Integer maxIdle = 20;
 	
 	/**
 	 * 超时时间
 	 */
-	private static Integer maxWait = 3000;
+	private static Integer maxWait = 5000;
 	
 	/**
 	 * 主机IP
@@ -61,6 +66,18 @@ private static final Logger logger = LoggerFactory.getLogger(RedisTemple.class);
 	@SuppressWarnings("rawtypes")
 	private RedisTemplate redisTemplate;
 	
+	private RedisClient(){
+		
+	}
+	
+	public static RedisClient getRedisClient(){
+		if(redisClient == null) {
+			redisClient = new RedisClient();
+		}
+		return redisClient;
+	}
+	
+	
 	
 	/**
 	 * 获取jedis对象
@@ -73,8 +90,16 @@ private static final Logger logger = LoggerFactory.getLogger(RedisTemple.class);
 			jedisPoolConfig.setMaxIdle(maxIdle);
 			jedisPoolConfig.setMaxWait(maxWait);
 		}
-		JedisPool jedisPool= new JedisPool(jedisPoolConfig, hostIp, port);
-		jedis = jedisPool.getResource();
+		jedisPool = new JedisPool(jedisPoolConfig, hostIp, port , maxWait);
+		long startTime = System.currentTimeMillis();
+		try {
+			jedis = jedisPool.getResource();
+		} catch (Exception e) {
+			logger.error("获取jedis异常:",e);
+		}
+		long endTime = System.currentTimeMillis();
+		long time = endTime - startTime;
+		logger.info("获取jedis时间:{}ms",time);
 		return jedis;
 	}
 	
@@ -89,7 +114,7 @@ private static final Logger logger = LoggerFactory.getLogger(RedisTemple.class);
 			logger.error("操作失败,异常信息:"+e.getMessage(),e);
 		}
 		finally{
-			//jedisPool.returnResource(jedis);
+			jedisPool.returnResource(jedis);
 		}
 	} 
 	
@@ -126,11 +151,22 @@ private static final Logger logger = LoggerFactory.getLogger(RedisTemple.class);
 	 * @return true、success  、fail
 	 */
 	public static boolean setnx(String key,String value){
-		long result = getJedis().setnx(key, value);
-		if(result == 1)
-			return true;
-		else
+		Jedis jedis = null;
+		try {
+			jedis = getJedis();
+			long result = getJedis().setnx(key, value);
+			if(result == 1)
+				return true;
+			else
+				return false;
+		} catch (Exception e) {
+			logger.info("操作失败" , e);
 			return false;
+		} finally {
+			if(jedis != null){
+				jedisPool.returnResource(jedis);
+			}
+		}
 	}
 	
 	public Long setnx(byte[] key,byte[] value){
@@ -146,11 +182,23 @@ private static final Logger logger = LoggerFactory.getLogger(RedisTemple.class);
 	}
 	
 	public static String setStr(String key,String value){
+		logger.info("");
 		return getJedis().set(key, value);
 	}
 	
 	public static String getString(String key){
-		return getJedis().get(key);
+		Jedis jedis = null;
+		try {
+			jedis =  getJedis();
+			return getJedis().get(key);
+		} catch (Exception e) {
+			logger.info("操作Jedis异常",e);
+			return null;
+		} finally {
+			if(jedis != null){
+				jedisPool.returnResource(jedis);
+			}
+		}
 	}
 	
 	
@@ -250,7 +298,11 @@ private static final Logger logger = LoggerFactory.getLogger(RedisTemple.class);
 		//System.out.println(setnx("allen1", "viney"));
 		//System.out.println(getString("allen"));
 		//System.out.println(getSet("allen12", "1"));
-		expire("allen1", 1000*10);
+		//set("allen1", "alllen");
+		//expire("allen1", 1000*10);
+		//System.out.println(get("allen1"));
+		//setStr("HQYG:ALLEN:aa", "aaa");
+		setnx("SECKILL:commontityId:100001", "12");
 		
 	}
 

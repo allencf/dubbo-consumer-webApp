@@ -3,11 +3,9 @@ package com.allen.test.redis.reidsLock;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
-
 import com.allen.test.redis.RedisClient;
 
-public class RedisCacheLock implements InitializingBean{
+public class RedisCacheLock{
 	
 	//redis分布式锁
 	//http://blog.csdn.net/u010359884/article/details/50310387
@@ -28,7 +26,7 @@ public class RedisCacheLock implements InitializingBean{
     private volatile boolean locked = false;
     
     //redisClient 操作Redis
-    private RedisClient redisClient = new RedisClient();
+    private RedisClient redisClient = RedisClient.getRedisClient();
 
 	
 	/**
@@ -97,30 +95,6 @@ public class RedisCacheLock implements InitializingBean{
 	
     
     
-	
-    @Override
-	public void afterPropertiesSet() throws Exception {
-		
-    	//调用代码(模拟redis分布式锁)
-		RedisCacheLock lock = new RedisCacheLock(lockKey, redisClient , timeoutMsecs ,expireMsecs);
-		try {
-            if(lock.lock()) {
-               //需要加锁的代码
-            }
-	    } 
-		catch (InterruptedException e) {
-	        e.printStackTrace();
-	    }
-		finally {
-           //为了让分布式锁的算法更稳键些，持有锁的客户端在解锁之前应该再检查一次自己的锁是否已经超时，再去做DEL操作，因为可能客户端因为某个耗时的操作而挂起，
-           //操作完的时候锁因为超时已经被别人获得，这时就不必解锁了。 ————这里没有做
-           lock.unlock();
-	   }
-	}
-
-
-
-
 
 	/**
      * 获得 lock.
@@ -145,6 +119,7 @@ public class RedisCacheLock implements InitializingBean{
             }
 
             String currentValueStr = redisClient.getString(lockKey); //redis里的时间
+            logger.info("currentValueStr:{}",currentValueStr);
             if (StringUtils.isNotBlank(currentValueStr) && Long.parseLong(currentValueStr) < System.currentTimeMillis()) {
                 //判断是否为空，不为空的情况下，如果被其他线程设置了值，则第二个条件判断是过不去的
                 //lock is expired
@@ -186,7 +161,7 @@ public class RedisCacheLock implements InitializingBean{
 
 
 	public static void main(String[] args) throws Exception{
-		RedisClient redisClient = new RedisClient();
+		RedisClient redisClient = RedisClient.getRedisClient();
 		int timeoutMsecs = 10000;  
 		int expireMsecs  = 20000;
 		String key = null;
