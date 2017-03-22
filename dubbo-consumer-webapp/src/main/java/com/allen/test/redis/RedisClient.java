@@ -34,24 +34,28 @@ private static final Logger logger = LoggerFactory.getLogger(RedisClient.class);
 	
 	
 	/**
-	 * jedis对象
-	 */
-	private static Jedis jedis;
-	
-	/**
 	 * 最大连接数(可用连接实列的最大数目,为负值时没有限制)
+	 * 控制一个pool可分配多少个jedis实例，通过pool.getResource()来获取；  
+     * 如果赋值为-1，则表示不限制；如果pool已经分配了maxActive个jedis实例，则此时pool的状态为exhausted(耗尽)。
 	 */
 	private static Integer maxActive = 2000;
 	
 	/**
 	 * 最大空闲数(空闲连接实列的最大数目,为负值时没有限制)
+	 * 控制一个pool最多有多少个状态为idle(空闲的)的jedis实例。  
 	 */
 	private static Integer maxIdle = 20;
 	
 	/**
 	 * 超时时间
+	 * 表示当borrow(引入)一个jedis实例时，最大的等待时间，如果超过等待时间，则直接抛出JedisConnectionException；  
 	 */
 	private static Integer maxWait = 5000;
+	
+	/**
+	 * 在borrow一个jedis实例时，是否提前进行validate操作；如果为true，则得到的jedis实例均是可用的；
+	 */
+	private static Boolean isBorrow=true;
 	
 	/**
 	 * 主机IP
@@ -71,42 +75,47 @@ private static final Logger logger = LoggerFactory.getLogger(RedisClient.class);
 	}
 	
 	public static RedisClient getRedisClient(){
+		Object obj = new Object();
 		if(redisClient == null) {
-			redisClient = new RedisClient();
+			synchronized (obj) {
+				if(redisClient == null) {
+					redisClient = new RedisClient();
+				}
+			}
 		}
 		return redisClient;
 	}
-	
 	
 	
 	/**
 	 * 获取jedis对象
 	 * @return
 	 */
-	public static Jedis getJedis(){
+	public static synchronized Jedis getJedis(){
 		if(jedisPoolConfig == null){
 			jedisPoolConfig = new JedisPoolConfig();
-			jedisPoolConfig.setMaxActive(maxActive);
+			jedisPoolConfig.setMaxTotal(maxActive);
 			jedisPoolConfig.setMaxIdle(maxIdle);
-			jedisPoolConfig.setMaxWait(maxWait);
+			jedisPoolConfig.setMaxWaitMillis(maxWait);
+			jedisPoolConfig.setTestOnBorrow(isBorrow);
 		}
-		jedisPool = new JedisPool(jedisPoolConfig, hostIp, port , maxWait);
-		long startTime = System.currentTimeMillis();
+		if(jedisPool == null) {
+			jedisPool = new JedisPool(jedisPoolConfig, hostIp, port , maxWait);
+		}
+		Jedis jedis = null;
 		try {
 			jedis = jedisPool.getResource();
 		} catch (Exception e) {
 			logger.error("获取jedis异常:",e);
 		}
-		long endTime = System.currentTimeMillis();
-		long time = endTime - startTime;
-		logger.info("获取jedis时间:{}ms",time);
 		return jedis;
 	}
 	
 	
 	public static void set(String key,Object value){
+		Jedis jedis = null;
 		try{
-			Jedis jedis = getJedis();
+			jedis = getJedis();
 			jedis.set(key.getBytes(), serialize(value));
 			logger.info("操作成功!!!");
 		}
@@ -114,7 +123,7 @@ private static final Logger logger = LoggerFactory.getLogger(RedisClient.class);
 			logger.error("操作失败,异常信息:"+e.getMessage(),e);
 		}
 		finally{
-			jedisPool.returnResource(jedis);
+			closeResource(jedis);
 		}
 	} 
 	
@@ -154,7 +163,7 @@ private static final Logger logger = LoggerFactory.getLogger(RedisClient.class);
 		Jedis jedis = null;
 		try {
 			jedis = getJedis();
-			long result = getJedis().setnx(key, value);
+			long result = jedis.setnx(key, value);
 			if(result == 1)
 				return true;
 			else
@@ -164,7 +173,7 @@ private static final Logger logger = LoggerFactory.getLogger(RedisClient.class);
 			return false;
 		} finally {
 			if(jedis != null){
-				jedisPool.returnResource(jedis);
+				closeResource(jedis);
 			}
 		}
 	}
@@ -174,33 +183,44 @@ private static final Logger logger = LoggerFactory.getLogger(RedisClient.class);
 	}
 	
 	public Long delKey(String key){
-		return getJedis().del(key);
+		Jedis jedis = null;
+		try {
+			jedis = getJedis();
+			return jedis.del(key);
+		} catch (Exception e) {
+			logger.error("Redis delKey 异常",e);
+			return null;
+		} finally {
+			if(jedis != null) {
+				closeResource(jedis);
+			}
+		}
 	}
 	
-	public Long delKey(byte[] key){
-		return getJedis().del(key);
-	}
-	
-	public static String setStr(String key,String value){
-		logger.info("");
-		return getJedis().set(key, value);
-	}
 	
 	public static String getString(String key){
 		Jedis jedis = null;
 		try {
 			jedis =  getJedis();
-			return getJedis().get(key);
+			return jedis.get(key);
 		} catch (Exception e) {
 			logger.info("操作Jedis异常",e);
 			return null;
 		} finally {
 			if(jedis != null){
-				jedisPool.returnResource(jedis);
+				closeResource(jedis);
 			}
 		}
 	}
 	
+	public static void closeResource(Jedis jedis){
+		if(jedis == null || jedisPool == null)
+			return ;
+		jedis.close(); 
+		//jedisPool.returnResource(jedis);
+		//jedisPool.returnBrokenResource(jedis);
+		//jedisPool.destroy();
+	}
 	
 	/**
 	 * set key 返回旧值
@@ -209,36 +229,21 @@ private static final Logger logger = LoggerFactory.getLogger(RedisClient.class);
 	 * @return
 	 */
 	public static String getSet(String key,String value){
-		return getJedis().getSet(key, value);
+		Jedis jedis = null;
+		try {
+			jedis = getJedis();
+			return jedis.getSet(key, value);
+		} catch (Exception e) {
+			logger.error("Redis getSet异常" , e);
+			return null;
+		} finally {
+			if(jedis != null) {
+				closeResource(jedis);
+			}
+		}
 	}
 	
 
-	public static Object get(String key){
-		//Jedis jedis = getJedis();
-		return null;
-	}
-	
-	/*104      * 根据key 获取内容
-	105      *
-	106      * @param key
-	107      * @return
-	108      
-	109     public static Object get(String key) {
-	110 
-	111         Jedis jedis = null;
-	112         try {
-	113             jedis = jedisPool.getResource();
-	114             byte[] value = jedis.get(key.getBytes());
-	115             return SerializeUtil.unserialize(value);
-	116         } catch (Exception e) {
-	117             e.printStackTrace();
-	118             return false;
-	119         } finally {
-	120             jedisPool.returnResource(jedis);
-	121         }
-	122     }
-	*/
-	
 	
 	/**
 	 * 序列化
@@ -302,7 +307,7 @@ private static final Logger logger = LoggerFactory.getLogger(RedisClient.class);
 		//expire("allen1", 1000*10);
 		//System.out.println(get("allen1"));
 		//setStr("HQYG:ALLEN:aa", "aaa");
-		setnx("SECKILL:commontityId:100001", "12");
+		//setnx("SECKILL:commontityId:100001", "12");
 		
 	}
 

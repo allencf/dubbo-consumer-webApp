@@ -3,11 +3,8 @@ package com.allen.test.redis;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
-
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.allen.test.redis.reidsLock.RedisCacheLock;
 
 /**
@@ -29,6 +26,10 @@ public class SecKill {
 	
 	
 	private static Integer sellCount = 0;
+	
+	private static Integer noLockCount = 0;
+	
+	private static Integer getLockCount = 0;
 	
 	
 	/**
@@ -52,8 +53,6 @@ public class SecKill {
 			if(inventoryCount > 0) {
 				inventory.put(commodityId, inventory.get(commodityId)-1);
 				sellCount += 1;
-				//sendCountToRedis();
-				//logger.info("已成功购买数:{}",getCountToRedis());
 				
 			} else {
 				if(inventoryCount < 0){
@@ -73,25 +72,36 @@ public class SecKill {
 	/**
 	 * 测试加锁模拟秒杀场景
 	 * 开启1000个线程模拟秒杀
+	 * @param threadCount 需要模拟的线程数(默认100个线程)
 	 */
-	public static void testLockSecKill(){
-		int threadCount = 100;
+	public static void testLockSecKill(Integer threadCount){
+		if (threadCount == null) {
+			threadCount = 100;
+		}
 		Thread[] treads = new Thread[threadCount];
 		CountDownLatch latch = new CountDownLatch(threadCount);
 		String commondityId = "100001";
+		RedisCacheLock lock = new RedisCacheLock("seckill:commontityId:100001", RedisClient.getRedisClient(), 1, 1);
 		for (Thread thread : treads) {
 			thread = new Thread(new Runnable() {
 				@Override
 				public void run() {
-					RedisCacheLock lock = null; 
 					//调用代码(模拟redis分布式锁)
 					try {
-						lock = new RedisCacheLock("seckill:commontityId:100001", null, 1, 1);
-			            if(lock.lock()) {
-			               //需要加锁的代码
-			               reduceInventory(commondityId);
+			            if(lock.lock()) { //获得锁
+			              Integer goodsCount = inventory.get(commondityId);
+			              if(goodsCount >0 ){
+			            	  getLockCount += 1;
+				              //需要加锁的代码
+				              reduceInventory(commondityId);
+			              } else {
+			            	  noLockCount += 1;
+			              }
+			            } else {
+			               //等待获取锁后重新操作
+			            	recursion(lock, commondityId);
 			            }
-				    } 
+					}
 					catch (InterruptedException e) {
 				        logger.error("执行操作异常",e);
 						//e.printStackTrace();
@@ -102,7 +112,6 @@ public class SecKill {
 			           if(lock != null){
 			        	   lock.unlock();
 			           }
-			           latch.countDown();
 				   }
 				   latch.countDown();
 				}
@@ -117,12 +126,33 @@ public class SecKill {
 		}
 		logger.info("goods count ------------:{}",inventory.get(commondityId));
 		logger.info("sellCount --------:{}",sellCount);
+		logger.info("noLockCount ------:{}",noLockCount);
+		logger.info("getLockCount -----:{}",getLockCount);
+	}
+	
+	private static void recursion(RedisCacheLock lock,String commondityId){
+		try {
+			if(!lock.lock()) {
+				recursion(lock , commondityId);
+			} else {
+				Integer count = inventory.get(commondityId);
+				if(count == 0 ){
+					//logger.info("goods count is 0");
+					noLockCount += 1;
+					return;
+				}
+				//需要加锁的代码
+				getLockCount += 1;
+	            reduceInventory(commondityId);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
-	public static void testSecKill() {
+	public static void testSecKill(Integer threadCount) {
 		String commondityId = "100001";
-		int threadCount = 500;
 		CountDownLatch latch = new CountDownLatch(threadCount);
 		Thread[] treads = new Thread[threadCount];
 		for (Thread thread : treads) {
@@ -153,28 +183,59 @@ public class SecKill {
 	}
 	
 	
-	@SuppressWarnings("static-access")
-	public static void sendCountToRedis(){
-		RedisClient redisClient = RedisClient.getRedisClient();
-		String count = redisClient.getString("secKill:count:test");
-		Integer sellCount = 1;
-		if(StringUtils.isNotBlank(count)) {
-			sellCount = Integer.parseInt(count) + 1;
-		}
-		redisClient.setStr("secKill:count:test", String.valueOf(sellCount));
+	
+	static boolean flag = true;
+	
+	public static void testLock(){
+		Object obj = new Object();
+		Thread thread1 = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				synchronized (obj) {
+					if(!flag){
+						obj.notify();
+					}
+					try {
+						Thread.sleep(2000);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					System.out.print("abc");
+					flag = false;
+				}
+			}
+		});
+		
+		Thread thread2 = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				synchronized (obj) {
+					try {
+						if(flag) {
+							flag = false;
+							obj.wait();
+						}
+						System.out.print("def");
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		thread1.start();
+		thread2.start();
 	}
 	
-	
-	@SuppressWarnings("static-access")
-	public static String getCountToRedis(){
-		RedisClient redisClient = RedisClient.getRedisClient();
-		return redisClient.getString("secKill:count:test");
-	}
 	
 	
 	public static void main(String[] args) {
+		long startTime = System.currentTimeMillis();
 		//testSecKill();
-		testLockSecKill();
+		testLockSecKill(1000);
+		//testLock();
+		long endTime = System.currentTimeMillis();
+		long time = endTime - startTime;
+		logger.info("execute time :{}ms",time);
 	}
 
 }
