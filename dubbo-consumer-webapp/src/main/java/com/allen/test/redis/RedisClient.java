@@ -295,6 +295,19 @@ private static final Logger logger = LoggerFactory.getLogger(RedisClient.class);
     
     
 	
+	public static void test(){
+		long nanoTime 		= System.nanoTime();
+		long lockTimeout	= 1000*1000*1000;
+		long startTime = System.currentTimeMillis();
+		while (System.nanoTime() - nanoTime < lockTimeout) {
+			//System.out.println((System.nanoTime()-nanoTime)+"ns");
+		}
+		long endTime = System.currentTimeMillis();
+		long time = endTime - startTime;
+		System.out.println(time+"ms");
+	}
+	
+	
 
 	public static void main(String[] args) {
 		//set("viney", "allen");
@@ -308,7 +321,7 @@ private static final Logger logger = LoggerFactory.getLogger(RedisClient.class);
 		//System.out.println(get("allen1"));
 		//setStr("HQYG:ALLEN:aa", "aaa");
 		//setnx("SECKILL:commontityId:100001", "12");
-		
+		test();
 	}
 
 }

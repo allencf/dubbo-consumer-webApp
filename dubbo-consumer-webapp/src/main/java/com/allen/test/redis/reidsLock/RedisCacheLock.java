@@ -20,7 +20,7 @@ public class RedisCacheLock{
 	//锁超时时间，防止线程在入锁以后，无限的执行等待
     private int expireMsecs = 60 * 1000;
     
-    //锁等待时间，防止线程饥饿
+    //锁等待时间(在设定的时间内不断轮询锁)，防止线程饥饿
     private int timeoutMsecs = 10 * 1000;
 
     private volatile boolean locked = false;
@@ -29,6 +29,22 @@ public class RedisCacheLock{
     private RedisClient redisClient = RedisClient.getRedisClient();
 
 	
+    public RedisCacheLock(String lockKey,RedisClient redisClient,int timeoutMsecs,int expireMsecs){
+		if(StringUtils.isNotBlank(lockKey)) {
+			this.lockKey      = lockKey;
+		}
+		if(redisClient != null) {
+			this.redisClient  = redisClient;
+		}
+		if(timeoutMsecs > 0) {
+			this.timeoutMsecs = timeoutMsecs;
+		}
+		if(expireMsecs > 0) {
+			this.expireMsecs  = expireMsecs;
+		}
+	}
+    
+    
 	/**
      * 加锁
      * 使用方式为：
@@ -78,23 +94,6 @@ public class RedisCacheLock{
     
     
     
-    public RedisCacheLock(String lockKey,RedisClient redisClient,int timeoutMsecs,int expireMsecs){
-		if(StringUtils.isNotBlank(lockKey)) {
-			this.lockKey      = lockKey;
-		}
-		if(redisClient != null) {
-			this.redisClient  = redisClient;
-		}
-		if(timeoutMsecs > 0) {
-			this.timeoutMsecs = timeoutMsecs;
-		}
-		if(expireMsecs > 0) {
-			this.expireMsecs  = expireMsecs;
-		}
-	}
-	
-    
-    
 
 	/**
      * 获得 lock.
@@ -118,10 +117,8 @@ public class RedisCacheLock{
                     locked = true;
                     return true;
                 }
-
-                String currentValueStr = redisClient.getString(lockKey); //redis里的时间
-                //logger.info("currentValueStr:{}",currentValueStr);
-                if (StringUtils.isNotBlank(currentValueStr) && Long.parseLong(currentValueStr) < System.currentTimeMillis()) {
+                String currentValueStr = redisClient.getString(lockKey); //redis里的set的超时时间
+                if (StringUtils.isNotBlank(currentValueStr) && Long.parseLong(currentValueStr) < System.currentTimeMillis()) { //说明锁已经过期
                     //判断是否为空，不为空的情况下，如果被其他线程设置了值，则第二个条件判断是过不去的
                     //lock is expired
                     String oldValueStr = redisClient.getSet(lockKey, expiresStr);
