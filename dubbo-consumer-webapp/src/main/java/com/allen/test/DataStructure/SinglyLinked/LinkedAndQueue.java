@@ -75,15 +75,13 @@ public class LinkedAndQueue {
 	}
 	
 	
-	
 	//打印出链表信息
 	public void printList(){
 		Node headNode = head;
-		while(headNode!=null){
+		while(headNode != null){
 			System.out.println("node content:" + headNode.getContent() );
-			if(headNode.getNextNode() != null)
-			{
-				System.out.println("nextNode content:" + headNode.getNextNode().getContent());
+			if(headNode.getNextNode() != null) {
+				System.out.println("next node content:" + headNode.getNextNode().getContent());
 			}
 			headNode = headNode.nextNode;
 		}
@@ -99,9 +97,9 @@ public class LinkedAndQueue {
 		link.addNode("5");
 		link.printList();
 		
-		System.out.println("link head data:" + link.head.getContent());
+		//System.out.println("link head data:" + link.head.getContent());
 		if(link.head.getNextNode() != null){
-			System.out.println("link head nextNode content:" + link.head.getNextNode().getContent());
+			//System.out.println("link head nextNode content:" + link.head.getNextNode().getContent());
 		}
 		//LinkedList<E>
 
