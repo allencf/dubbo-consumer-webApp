@@ -4,6 +4,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -321,7 +324,13 @@ private static final Logger logger = LoggerFactory.getLogger(RedisClient.class);
 		//System.out.println(get("allen1"));
 		//setStr("HQYG:ALLEN:aa", "aaa");
 		//setnx("SECKILL:commontityId:100001", "12");
-		test();
+		//test();
+		
+		List<String> list = new ArrayList<String>();
+		for (String string : list) {
+			System.out.println(string +  "s");
+		}
+		
 	}
 
 }

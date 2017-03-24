@@ -152,9 +152,15 @@ public class RedisCacheLock{
     /**
      * Acqurired lock release.
      */
-    public void unlock() {
+    @SuppressWarnings("static-access")
+	public void unlock() {
         if (locked) {
-            Long count =redisClient.delKey(lockKey);
+        	String keyValue = redisClient.getString(lockKey);
+        	//判断锁是否过期,如果过去则不需要删除key
+        	if(StringUtils.isNotBlank(keyValue) && Long.parseLong(keyValue) < System.currentTimeMillis()) {
+        		return;
+        	}
+        	redisClient.delKey(lockKey);
             locked = false;
         }
     }
