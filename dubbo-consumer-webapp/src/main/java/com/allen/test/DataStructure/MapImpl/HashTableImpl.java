@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Map.Entry;
 
 public class HashTableImpl<K,V> implements Serializable{
 
@@ -13,6 +12,8 @@ public class HashTableImpl<K,V> implements Serializable{
 	private static final long serialVersionUID = -6391986023789861924L;
 	
 	transient Node<K, V>[] table;
+	
+	transient int modCount;
 
 	static class Node<K,V> implements Map.Entry<K,V> {
         final int hash;
@@ -89,7 +90,7 @@ public class HashTableImpl<K,V> implements Serializable{
 	
 	/*private V putForNullKey(V value) {
         //遍历链表
-		for (Entry<K,V> e = table[0]; e != null; e = e.next) {
+		for (Node<K,V> e = table[0]; e != null; e = e.next) {
             if (e.getKey() == null) {
                 V oldValue = e.getValue();
                 e.setValue(value);
@@ -100,8 +101,8 @@ public class HashTableImpl<K,V> implements Serializable{
         modCount++;
         addEntry(0, null, value, 0);
         return null;
-    }*/
-	
+    }
+	*/
 	
 	public static void testHash(String key){
 		int hash = key.hashCode();
