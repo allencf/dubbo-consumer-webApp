@@ -80,8 +80,9 @@ public class HashMapOne {
         Entry entryInNewBucket=new Entry(k,v);  
         table[hash]=entryInNewBucket;  
         }  
-  
     }  
+    
+    
 
 	public static void main(String[] args) {
 		HashMapOne tmhm = new HashMapOne();  
