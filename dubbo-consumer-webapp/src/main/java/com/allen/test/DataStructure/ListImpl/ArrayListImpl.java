@@ -10,6 +10,8 @@ package com.allen.test.DataStructure.ListImpl;
  */
 public class ArrayListImpl {
 
+	//http://www.cnblogs.com/ysw-go/p/5383498.html
+	
 	//定义一个默认长度为10的数组
 	private static Object[] array = new Object[5];
 	
