@@ -1,6 +1,10 @@
 package com.allen.test.DataStructure.MapImpl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import com.sun.javafx.css.StyleCacheEntry.Key;
 
 public class HashMapOne {
 	
@@ -54,6 +58,21 @@ public class HashMapOne {
         }  
         return null;  
     }  
+    
+    
+    public Entry getVal(String k) {
+    	int hashCode = k.hashCode()%SIZE;
+    	Entry entry = table[hashCode];
+    	while(entry.next != null) {
+    		if(entry.key.equals(k)) {
+    			return entry;
+    		}
+    		entry = entry.next;
+    	}
+    	return null;
+    }
+    
+    
   
     /** 
      * 在map中将特定的key和value关联起来。 
@@ -82,6 +101,26 @@ public class HashMapOne {
         }  
     }  
     
+    
+    
+   public void putVal(String k,String v) {
+	   int hashCode = k.hashCode()%SIZE;
+	   Entry e = table[hashCode];
+	   if(e != null) {
+		   while(e.next != null){
+			   if(e.key.equals(k)){
+				   e.value = v;
+				   return;
+			   }
+			   e = e.next;
+		   }
+		   Entry entry = new Entry(k, v);
+		   e.next = entry;
+	   } else {
+		   Entry entry = new Entry(k, v);
+		   table[hashCode] = entry;
+	   }
+   }
     
 
 	public static void main(String[] args) {
@@ -114,7 +153,9 @@ public class HashMapOne {
           
         System.out.println("自己实现的Map取值： "+e.getValue());  
         System.out.println("原有的java.util.HashMap取值： "+mapResult);  
-
+        System.out.println( 1<<4);
+        
+        List<String> list = new ArrayList<String>();
 	}
 
 }
