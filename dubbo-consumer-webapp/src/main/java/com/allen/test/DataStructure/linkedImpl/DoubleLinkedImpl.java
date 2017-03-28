@@ -23,6 +23,7 @@ public class DoubleLinkedImpl<T> {
 	
 	//http://blog.csdn.net/a19881029/article/details/22898689
 	//http://blog.csdn.net/Sun_Ru/article/details/51784058
+	//http://www.cnblogs.com/linlf03/p/5278629.html
 	
 	//头节点
 	private Node<T> head;
@@ -37,8 +38,9 @@ public class DoubleLinkedImpl<T> {
 	 */
     public DoubleLinkedImpl() {
 		this.count = 0;
-		this.head  = new Node<T>(null, trail, null);
-		this.trail = new Node<T>(null, head, null);
+		this.head  = new Node<T>(null, null, null);
+		this.trail = new Node<T>(null, null, head);
+		this.head.setNext(trail);
 	}
     
     
@@ -49,23 +51,66 @@ public class DoubleLinkedImpl<T> {
     public void add(T item) {
     	logger.info("start execute add method,params :{}",JSON.toJSONString(item));
     	Node<T> node = new Node<T>(item, null, null);
-    	trail.getPre().setNext(node);
-        node.setPre(trail.getPre());
+    	if(trail.getPre() != null) {
+    		trail.getPre().setNext(node);
+    		node.setPre(trail.getPre());
+    	}
         node.setNext(trail);
         trail.setPre(node);
         count ++ ;
         logger.info("end execute add method");
     }
+    
+    public boolean isEmpty() {
+        return (this.count == 0);
+    }
 
+    public T getInt(int index) {
+        if (index > this.count - 1 || index < 0)
+            throw new IndexOutOfBoundsException();
+ 
+        Node<T> current = head.getNext();
+        for (int i = 0; i < index; i++) {
+        	if(current != null) {
+        		current = current.getNext();
+        	}
+        }
+        if(current == null)
+        	return null;
+        return current.getData();
+    }
+    
+    public void print() {
+    	Node<T> node = head.getNext();
+    	if(node == null)
+    		return;
+    	while(node.getNext() != null) {
+    		if(node.getData() != null) {
+    			System.out.println(node.getData().toString());
+    		}
+    		node = node.getNext();
+    	}
+    }
 
+    /**
+     * @description 获取计数器的数量
+     * @return
+     */
     public int size(){
     	return count;
     }
-    
 
 	public static void main(String[] args) {
-	
-
+		DoubleLinkedImpl<String> dLink = new DoubleLinkedImpl<String>();
+        dLink.add("zhb");
+        dLink.add("zzb");
+        dLink.add("zmy");
+        dLink.add("zzj");
+ 
+        System.out.println("size : " + dLink.size());
+        System.out.println("isEmpty? : " + dLink.isEmpty());
+        System.out.println("3 : " + dLink.getInt(2));
+        dLink.print();
 	}
 
 }
