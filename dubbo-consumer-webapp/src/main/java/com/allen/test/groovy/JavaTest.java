@@ -17,8 +17,18 @@ import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 import groovy.util.GroovyScriptEngine;
 
+/**
+ * groovy 学习
+ * All rights Reserved, Designed By HQYG
+ * Copyright:   Copyright(C) 2016
+ * Company:     HQYG.
+ * author:      cf
+ * Createdate:  2017年3月28日下午5:41:49
+ */
 public class JavaTest {
 
+	//https://my.oschina.net/davidzhang/blog/89654
+	
 	/**
 	 * 简答脚本执行   GroovyShell 执行
 	 * @throws Exception
