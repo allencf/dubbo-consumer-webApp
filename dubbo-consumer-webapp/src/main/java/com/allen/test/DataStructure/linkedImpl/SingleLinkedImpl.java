@@ -1,4 +1,4 @@
-package com.allen.test.DataStructure.SinglyLinked;
+package com.allen.test.DataStructure.linkedImpl;
 
 
 /**
@@ -9,7 +9,7 @@ package com.allen.test.DataStructure.SinglyLinked;
  * author:      cf
  * Createdate:  2016年11月14日下午5:12:20
  */
-public class LinkedAndQueue {
+public class SingleLinkedImpl {
 	
 	//头节点
 	Node head;
@@ -89,7 +89,7 @@ public class LinkedAndQueue {
 	
 	
 	public static void main(String[] args) {
-		LinkedAndQueue link = new LinkedAndQueue();
+		SingleLinkedImpl link = new SingleLinkedImpl();
 		link.addNode("1");
 		link.addNode("2");
 		link.addNode("3");

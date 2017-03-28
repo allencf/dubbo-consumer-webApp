@@ -1,4 +1,4 @@
-package com.allen.test.DataStructure.SinglyLinked;
+package com.allen.test.DataStructure.linkedImpl;
 
 
 /**
