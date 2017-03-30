@@ -28,6 +28,10 @@ class TwoGroovyTest {
 	def String s = "a";
 	//s.addMedthod();
 	
+	def run(){
+		println "$test hello world"
+	}
+	
 	
 	static void main (def args) {
 		println "hello world"

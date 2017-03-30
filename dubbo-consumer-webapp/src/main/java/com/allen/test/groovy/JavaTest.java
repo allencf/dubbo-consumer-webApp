@@ -250,7 +250,14 @@ public class JavaTest {
 		//evalScript();
 		
 		//testGroovy2();
-		testGroovy3();
+		//testGroovy3();
+		//直接调用编译成class后的对象
+		TwoGroovyTest test = new TwoGroovyTest();
+		test.helloWithoutParam();
+		
+		Binding bind = new Binding();
+		bind.setVariable("test", "allen");
+		TwoGroovyTest script = new TwoGroovyTest();
 	}
 
 }
