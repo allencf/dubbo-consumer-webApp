@@ -28,6 +28,7 @@ import groovy.util.GroovyScriptEngine;
 public class JavaTest {
 
 	//https://my.oschina.net/davidzhang/blog/89654
+	//http://www.open-open.com/lib/view/open1453261212042.html
 	
 	/**
 	 * 简答脚本执行   GroovyShell 执行
