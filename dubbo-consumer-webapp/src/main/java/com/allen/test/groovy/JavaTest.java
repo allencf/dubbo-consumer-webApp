@@ -112,7 +112,7 @@ public class JavaTest {
 	    Script script = shell.parse("def join(String[] list) {return list.join('--');}");  
 	    String joinString = (String)script.invokeMethod("join", new String[]{"A1","B2","C3"});  
 	    System.out.println(joinString);  
-	    ////脚本可以为任何格式,可以为main方法,也可以为普通方法  
+	    //脚本可以为任何格式,可以为main方法,也可以为普通方法  
 	    //1) def call(){...};call();  
 	    //2) call(){...};  
 	    script = shell.parse("static void main(String[] args){i = i * 2;}");  
