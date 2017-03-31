@@ -7,11 +7,13 @@ import java.io.FileInputStream;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
 import javax.script.Bindings;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+
+import com.allen.test.groovy.temple.IFoo;
+
 import groovy.lang.Binding;
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyCodeSource;
@@ -32,6 +34,9 @@ public class JavaTest {
 
 	//https://my.oschina.net/davidzhang/blog/89654
 	//http://www.open-open.com/lib/view/open1453261212042.html
+	
+	
+	private static final String GROOVY_FILE_LOCATION = "src/main/java/com/allen/test/groovy/temple/groovyfile/Foo.groovy";
 	
 	/**
 	 * 简答脚本执行   GroovyShell 执行
@@ -132,16 +137,21 @@ public class JavaTest {
 	/**
 	 * GroovyClassLoad 加载
 	 * @throws Exception
+	 * http://www.blogjava.net/hsith/archive/2006/04/28/43790.html
 	 */
-	public static void parse() throws Exception{  
-	    GroovyClassLoader classLoader = new GroovyClassLoader(Thread.currentThread().getContextClassLoader());  
-	    File sourceFile = new File("D:\\TestGroovy.groovy");//文本内容的源代码  
-	    Class testGroovyClass = classLoader.parseClass(new GroovyCodeSource(sourceFile));  
+	@SuppressWarnings({ "rawtypes", "unused", "resource" })
+	public static void parseGroovyClassLoad() throws Exception{  
+	    String script = "public Object run(Object foo) { return foo*10;}";
+		GroovyClassLoader classLoader = new GroovyClassLoader(Thread.currentThread().getContextClassLoader());  
+	    File sourceFile = new File(GROOVY_FILE_LOCATION);//文本内容的源代码   //new GroovyCodeSource(sourceFile)
+	    Class testGroovyClass = classLoader.parseClass(script);  
 	    GroovyObject instance = (GroovyObject)testGroovyClass.newInstance();//proxy  
-	    Long time = (Long)instance.invokeMethod("getTime", new Date());  
-	    System.out.println(time);  
-	    Date date = (Date)instance.invokeMethod("getDate", time);  
-	    System.out.println(date.getTime());  
+	    Object[] arg = {new Integer(10)};
+	    
+	    Object obj = instance.invokeMethod("run", arg);  
+	    System.out.println(obj);  
+	    //Date date = (Date)instance.invokeMethod("getDate", time);  
+	    //System.out.println(date.getTime());  
 	    //here  
 	    instance = null;  
 	    testGroovyClass = null;  
@@ -255,14 +265,16 @@ public class JavaTest {
 		//testGroovy2();
 		//testGroovy3();
 		//直接调用编译成class后的对象
-		TwoGroovyTest test = new TwoGroovyTest();
-		test.helloWithoutParam();
+		//TwoGroovyTest test = new TwoGroovyTest();
+		//test.helloWithoutParam();
 		
-		Binding bind = new Binding();
+		/*Binding bind = new Binding();
 		bind.setVariable("test", "allen");
 		TwoGroovyTest script = new TwoGroovyTest();
 		
-		Map<String, Object> map = new ConcurrentHashMap<>();
+		Map<String, Object> map = new ConcurrentHashMap<>();*/
+		
+		parseGroovyClassLoad();
 		
 	}
 
