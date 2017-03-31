@@ -22,11 +22,13 @@ public class DynamicReflectGroovy {
 		return groovyObject.getProperty(name); 
 	} 
 	
+	@SuppressWarnings({ "rawtypes", "resource" })
 	public Object invokeScriptMethod(String scriptName, String methodName, Object[] args) { 
 		ClassLoader parent = getClass().getClassLoader(); 
 		GroovyClassLoader loader = new GroovyClassLoader(parent); 
 		try { 
 			Class groovyClass = loader.parseClass(new File(scriptName)); 
+			//loader.parseClass("");
 			groovyObject = (GroovyObject) groovyClass.newInstance(); 
 			return groovyObject.invokeMethod(methodName, args); 
 		} catch (Exception e) { 

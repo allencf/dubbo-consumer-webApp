@@ -9,7 +9,7 @@ public abstract class TestClassOne implements InterfaceOne {
 	protected abstract void getRule(String paramString);
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
 
 	}
 

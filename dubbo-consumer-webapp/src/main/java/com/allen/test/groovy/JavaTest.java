@@ -5,6 +5,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import javax.script.Bindings;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
@@ -258,6 +261,9 @@ public class JavaTest {
 		Binding bind = new Binding();
 		bind.setVariable("test", "allen");
 		TwoGroovyTest script = new TwoGroovyTest();
+		
+		Map<String, Object> map = new ConcurrentHashMap<>();
+		
 	}
 
 }

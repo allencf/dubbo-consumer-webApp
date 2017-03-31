@@ -2,9 +2,6 @@ package com.allen.test.abstact;
 
 public class TestClassThree extends TestClassTwo {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-	}
 
 	@Override
 	public void deploy(String paramString1, String paramString2) {
@@ -17,5 +14,12 @@ public class TestClassThree extends TestClassTwo {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
+	public static void main(String[] args) {
+		TestClassThree three = new TestClassThree();
+		
+	}
+	
 
 }
