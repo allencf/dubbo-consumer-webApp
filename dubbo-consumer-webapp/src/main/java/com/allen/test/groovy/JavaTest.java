@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,6 +13,12 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
+import org.apache.shiro.web.filter.mgt.PathMatchingFilterChainResolver;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
+
+import com.alibaba.dubbo.common.utils.IOUtils;
 import com.allen.test.groovy.temple.IFoo;
 
 import groovy.lang.Binding;
@@ -252,6 +259,23 @@ public class JavaTest {
 	
 	
 	
+	public static void testLoad(String location) {
+		ResourcePatternResolver resource = new PathMatchingResourcePatternResolver();
+		try {
+			Resource[] resources = resource.getResources(location);
+			for (Resource r : resources) {
+				System.out.println("filename: " + r.getFilename());
+				System.out.println("filecontent" + com.alibaba.fastjson.util.IOUtils.toString(r.getInputStream()));
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	
 	public static void main(String[] args) throws Exception{
 		//GroovyShell执行
 		//evalScriptText();
@@ -274,7 +298,8 @@ public class JavaTest {
 		
 		Map<String, Object> map = new ConcurrentHashMap<>();*/
 		
-		parseGroovyClassLoad();
+		//parseGroovyClassLoad();
+		testLoad("f:\\groovy");
 		
 	}
 
