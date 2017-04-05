@@ -4,22 +4,20 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.Date;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+
 import javax.script.Bindings;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.shiro.web.filter.mgt.PathMatchingFilterChainResolver;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
-
-import com.alibaba.dubbo.common.utils.IOUtils;
 import com.allen.test.groovy.temple.IFoo;
+import com.google.common.base.Charsets;
 
 import groovy.lang.Binding;
 import groovy.lang.GroovyClassLoader;
@@ -265,13 +263,15 @@ public class JavaTest {
 			Resource[] resources = resource.getResources(location);
 			for (Resource r : resources) {
 				System.out.println("filename: " + r.getFilename());
-				System.out.println("filecontent" + com.alibaba.fastjson.util.IOUtils.toString(r.getInputStream()));
+				System.out.println("filepath :" + r.getFile().getPath());
+				String path = r.getFile().getPath();
 				
+				System.out.println("file lastModified :" + r.getFile().lastModified());
+				System.out.println("filecontent :" + IOUtils.toString(r.getInputStream(),"utf-8"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	
@@ -279,27 +279,24 @@ public class JavaTest {
 	public static void main(String[] args) throws Exception{
 		//GroovyShell执行
 		//evalScriptText();
-		
 		//GroovyShell伪main方法执行
 		//evalScriptAsMainMethod();
-		
 		//evalScriptTextFull();
 		//evalScript();
-		
 		//testGroovy2();
 		//testGroovy3();
 		//直接调用编译成class后的对象
 		//TwoGroovyTest test = new TwoGroovyTest();
 		//test.helloWithoutParam();
-		
 		/*Binding bind = new Binding();
 		bind.setVariable("test", "allen");
 		TwoGroovyTest script = new TwoGroovyTest();
-		
 		Map<String, Object> map = new ConcurrentHashMap<>();*/
-		
 		//parseGroovyClassLoad();
-		testLoad("f:\\groovy");
+		String location = "classpath*:/rule/groovy/**.groovy";
+		//String location = "src/main/java/com/allen/test/groovy/TwoGroovyTest.groovy";
+		//String location = "file:F:/Foo.groovy";
+		testLoad(location);
 		
 	}
 
