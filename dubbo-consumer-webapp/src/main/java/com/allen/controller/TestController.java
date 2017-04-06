@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.allen.commons.event.annotation.ClassEvent;
 import com.allen.commons.event.annotation.MethodEvent;
 import com.allen.dubbo.service.DubboTestService;
@@ -30,15 +29,12 @@ public class TestController {
 	@Value("${zookeeper.registry.address}")
 	String zkAddress;
 	
-	
 	//dubbo注解方式
 	/*@Reference(version = "1.0.0")
 	private DubboTestService dubboTestService;*/
 	
 	@Autowired
 	private DubboTestService dubboTestService;
-
-	
 	
 	@MethodEvent
 	@RequestMapping(value ="/test" , method = RequestMethod.POST)

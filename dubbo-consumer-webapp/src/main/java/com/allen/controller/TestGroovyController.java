@@ -20,6 +20,7 @@ import net.sf.json.JSONSerializer;
 public class TestGroovyController {
 
 	
+	@SuppressWarnings({ "rawtypes", "resource" })
 	@RequestMapping(value = "/testGroovy", method = RequestMethod.POST)
 	@ResponseBody
 	public JSON testGroovy(){
@@ -54,10 +55,8 @@ public class TestGroovyController {
 	}
 	
 	
-	
-	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+
 
 	}
 
