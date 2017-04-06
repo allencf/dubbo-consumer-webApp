@@ -1,6 +1,5 @@
 package com.allen.test.thread.synchronize;
 
-import org.apache.tomcat.jni.Lock;
 
 /**
  * 模拟售票的一个线程测试类

@@ -146,10 +146,17 @@ public class JavaTest {
 	 */
 	@SuppressWarnings({ "rawtypes", "unused", "resource" })
 	public static void parseGroovyClassLoad() throws Exception{  
-	    String script = "public Object run(Object foo) { return foo*10;}";
+	    ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+	    Resource[] resources = resolver.getResources("classpath*:/rule/groovy/Foo.groovy");
+		StringBuilder sb = new StringBuilder();
+		for (Resource resource : resources) {
+			sb.append(IOUtils.toString(resource.getInputStream(), "utf-8"));
+		}
+		
+		//String script = "public Object run(Object foo) { return foo*10;}";
 		GroovyClassLoader classLoader = new GroovyClassLoader(Thread.currentThread().getContextClassLoader());  
 	    File sourceFile = new File(GROOVY_FILE_LOCATION);//文本内容的源代码   //new GroovyCodeSource(sourceFile)
-	    Class testGroovyClass = classLoader.parseClass(script);  
+	    Class testGroovyClass = classLoader.parseClass(sb.toString());  
 	    GroovyObject instance = (GroovyObject)testGroovyClass.newInstance();//proxy  
 	    Object[] arg = {new Integer(10)};
 	    
@@ -292,11 +299,11 @@ public class JavaTest {
 		bind.setVariable("test", "allen");
 		TwoGroovyTest script = new TwoGroovyTest();
 		Map<String, Object> map = new ConcurrentHashMap<>();*/
-		//parseGroovyClassLoad();
-		String location = "classpath*:/rule/groovy/**.groovy";
+		parseGroovyClassLoad();
+		//String location = "classpath*:/rule/groovy/**.groovy";
 		//String location = "src/main/java/com/allen/test/groovy/TwoGroovyTest.groovy";
 		//String location = "file:F:/Foo.groovy";
-		testLoad(location);
+		//testLoad(location);
 		
 	}
 
