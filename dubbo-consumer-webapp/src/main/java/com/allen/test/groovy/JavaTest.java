@@ -283,6 +283,8 @@ public class JavaTest {
 	
 	
 	
+	
+	
 	public static void main(String[] args) throws Exception{
 		//GroovyShell执行
 		//evalScriptText();
@@ -299,11 +301,12 @@ public class JavaTest {
 		bind.setVariable("test", "allen");
 		TwoGroovyTest script = new TwoGroovyTest();
 		Map<String, Object> map = new ConcurrentHashMap<>();*/
-		parseGroovyClassLoad();
+		//parseGroovyClassLoad();
 		//String location = "classpath*:/rule/groovy/**.groovy";
 		//String location = "src/main/java/com/allen/test/groovy/TwoGroovyTest.groovy";
 		//String location = "file:F:/Foo.groovy";
 		//testLoad(location);
+		Class.forName("sdf");
 		
 	}
 
