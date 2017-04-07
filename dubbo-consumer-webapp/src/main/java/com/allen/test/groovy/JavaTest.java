@@ -5,23 +5,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Date;
-
 import javax.script.Bindings;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-
 import org.apache.commons.io.IOUtils;
-import org.apache.shiro.web.filter.mgt.PathMatchingFilterChainResolver;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import com.allen.test.groovy.temple.IFoo;
-import com.google.common.base.Charsets;
-
 import groovy.lang.Binding;
 import groovy.lang.GroovyClassLoader;
-import groovy.lang.GroovyCodeSource;
 import groovy.lang.GroovyObject;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
