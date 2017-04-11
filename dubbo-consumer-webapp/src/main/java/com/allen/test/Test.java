@@ -1,9 +1,18 @@
 package com.allen.test;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import net.sf.json.JSON;
+import net.sf.json.JSONObject;
+import net.sf.json.JSONSerializer;
 
 public class Test {
 	
 	private String name;
+	
+	private Date updateTime;
 	
 	
 	public String getName() {
@@ -15,6 +24,15 @@ public class Test {
 		this.name = name;
 	}
 
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
 
 
 	public Test() {
@@ -57,22 +75,34 @@ public class Test {
 		
 		System.out.println(test.getName());
 		*/
-		int a = (int)3.9;
+		//int a = (int)3.9;
 		
 		//System.out.println(a);
 		
 		
-		long temp = (int)3.9;
+		//long temp = (int)3.9;
 		
-		temp%=2;
+		//temp%=2;
 		//System.out.println(temp);
 		
 		//System.out.println(4&7);
 		
-		System.out.println(Math.round(10.2));
+		//System.out.println(Math.round(10.2));
 		
 		//Math.round(12.376*Math.round(10.2))/Math.round(10.2);	
 		
+		List<Test> list = new ArrayList<>();
+		Test test = new Test();
+		test.setName("");
+		test.setUpdateTime(null);
+		list.add(test);
+		
+		JSONObject object = new JSONObject();
+		object.put("data", list);
+		
+		JSON json = JSONSerializer.toJSON(object);
+		
+		System.out.println(json);
 		
 	}
 

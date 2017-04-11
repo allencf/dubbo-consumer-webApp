@@ -9,6 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.allen.test.Test;
+
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyObject;
 import net.sf.json.JSON;
@@ -40,6 +43,21 @@ public class TestGroovyController {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	@RequestMapping(value = "/testJson" , method = RequestMethod.POST)
+	@ResponseBody
+	public JSON testJSON(){
+		JSONObject object = new JSONObject();
+		
+		Test test = new Test();
+		test.setUpdateTime(null);
+		object.put("data", test);
+		
+		JSON json = JSONSerializer.toJSON(object);
+		System.out.println(json);
+		
+		return json;
 	}
 	
 	
