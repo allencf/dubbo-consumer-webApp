@@ -297,9 +297,8 @@ public class JavaTest {
 		//parseGroovyClassLoad();
 		//String location = "classpath*:/rule/groovy/**.groovy";
 		//String location = "src/main/java/com/allen/test/groovy/TwoGroovyTest.groovy";
-		//String location = "file:F:/Foo.groovy";
-		//testLoad(location);
-		Class.forName("sdf");
+		String location = "file:F:/Foo.groovy";
+		testLoad(location);
 		
 	}
 
