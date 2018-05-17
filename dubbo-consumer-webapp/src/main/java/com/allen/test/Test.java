@@ -1,5 +1,6 @@
 package com.allen.test;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,8 +9,11 @@ import net.sf.json.JSON;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
-public class Test {
+public class Test implements Serializable{
 	
+	
+	private static final long serialVersionUID = -664804447927442405L;
+
 	private String name;
 	
 	private Date updateTime;
