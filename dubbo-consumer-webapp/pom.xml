@@ -11,7 +11,7 @@
   
   <groupId>com.allen.dubbo</groupId>
   <artifactId>dubbo-consumer-webapp</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <!-- <version>0.0.1-SNAPSHOT</version> -->
   <packaging>war</packaging>
   <name>dubbo-consumer-webapp</name>
   <description>dubbo consumer webapp test project</description>

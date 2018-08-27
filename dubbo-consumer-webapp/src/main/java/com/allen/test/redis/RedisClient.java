@@ -63,7 +63,7 @@ private static final Logger logger = LoggerFactory.getLogger(RedisClient.class);
 	/**
 	 * 主机IP
 	 */
-	private static String hostIp = "10.33.3.225";
+	private static String hostIp = "10.60.34.108";
 	
 	/**
 	 * 端口
@@ -326,10 +326,11 @@ private static final Logger logger = LoggerFactory.getLogger(RedisClient.class);
 		//setnx("SECKILL:commontityId:100001", "12");
 		//test();
 		
-		List<String> list = new ArrayList<String>();
+		/*List<String> list = new ArrayList<String>();
 		for (String string : list) {
 			System.out.println(string +  "s");
-		}
+		}*/
+		set("viney", "allen");
 		
 	}
 

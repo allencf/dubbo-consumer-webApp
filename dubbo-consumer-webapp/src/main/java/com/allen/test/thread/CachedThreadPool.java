@@ -2,14 +2,21 @@ package com.allen.test.thread;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class CachedThreadPool {
+	
+	//https://www.cnblogs.com/aaron911/p/6213808.html
+	
 	
 	private static ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
 	
 	private static ExecutorService fixCachedThreadPool = Executors.newFixedThreadPool(3);
 	
 	private static ExecutorService singleThreadPool = Executors.newSingleThreadExecutor();
+	
+	
+	private static ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(2);
 	
 	
 	public static void cachedThreadPoolMethod(){
