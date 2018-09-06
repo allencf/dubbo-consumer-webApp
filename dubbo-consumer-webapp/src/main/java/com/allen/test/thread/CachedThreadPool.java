@@ -15,8 +15,11 @@ public class CachedThreadPool {
 	
 	private static ExecutorService singleThreadPool = Executors.newSingleThreadExecutor();
 	
-	
 	private static ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(2);
+	
+	//获取CPU数
+	private static final int CORE_POOL_SIZE = Runtime.getRuntime().availableProcessors() * 2; // 核心线程数为 CPU 数＊2
+
 	
 	
 	public static void cachedThreadPoolMethod(){
@@ -60,7 +63,9 @@ public class CachedThreadPool {
 	public static void main(String[] args) {
 		//cachedThreadPoolMethod();
 		//fixCachedThreadPoolMethod();
-		singleThreadPoolMethod();
+		//singleThreadPoolMethod();
+		//打印服务器CPU核心数
+		System.out.println("服务器CPU数：" + Runtime.getRuntime().availableProcessors());
 	}
 
 }
