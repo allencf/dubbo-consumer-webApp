@@ -7,7 +7,7 @@ import java.util.concurrent.ScheduledExecutorService;
 public class CachedThreadPool {
 	
 	//https://www.cnblogs.com/aaron911/p/6213808.html
-	
+	//https://blog.csdn.net/mine_song/article/details/70948223
 	
 	private static ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
 	
