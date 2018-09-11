@@ -18,14 +18,31 @@ public class CachedThreadPool {
 	
 	private static ExecutorService singleThreadPool = Executors.newSingleThreadExecutor();
 	
+	private static ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(2);
 	
-	/*在前面我们多次提到了任务缓存队列，即workQueue，它用来存放等待执行的任务。
+	/*
+	https://www.cnblogs.com/dolphin0520/p/3932921.html
+	
+	在前面我们多次提到了任务缓存队列，即workQueue，它用来存放等待执行的任务。
 	workQueue的类型为BlockingQueue<Runnable>，通常可以取下面三种类型：
 	1）ArrayBlockingQueue：基于数组的先进先出队列，此队列创建时必须指定大小；
 	2）LinkedBlockingQueue：基于链表的先进先出队列，如果创建时没有指定此队列大小，则默认为Integer.MAX_VALUE；
-	3）synchronousQueue：这个队列比较特殊，它不会保存提交的任务，而是将直接新建一个线程来执行新来的任务。 */
+	3）synchronousQueue：这个队列比较特殊，它不会保存提交的任务，而是将直接新建一个线程来执行新来的任务。
 	
-	//private static ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(2);
+	
+	本节来讨论一个比较重要的话题：如何合理配置线程池大小，仅供参考。
+	一般需要根据任务的类型来配置线程池大小：
+	如果是CPU密集型任务，就需要尽量压榨CPU，参考值可以设为 NCPU+1
+	如果是IO密集型任务，参考值可以设置为2*NCPU
+	当然，这只是一个参考值，具体的设置还需要根据实际情况进行调整，比如可以先将线程池大小设置为参考值，再观察任务运行情况和系统负载、资源利用率来进行适当调整。
+	参考资料：
+	http://ifeve.com/java-threadpool/
+	http://blog.163.com/among_1985/blog/static/275005232012618849266/
+	http://developer.51cto.com/art/201203/321885.htm
+	http://blog.csdn.net/java2000_wl/article/details/22097059
+	http://blog.csdn.net/cutesource/article/details/6061229
+	http://blog.csdn.net/xieyuooo/article/details/8718741
+	*/
 	
 	//获取CPU数
 	//private static final int CORE_POOL_SIZE = Runtime.getRuntime().availableProcessors() * 2; // 核心线程数为 CPU 数＊2
@@ -61,6 +78,15 @@ public class CachedThreadPool {
 	}
 	
 	
+	public static void scheduledThreadPoolMethod() {
+		for (int i = 1; i <= 5; i++) {
+			RunnableThread1 thread = new RunnableThread1(5);
+			scheduledThreadPool.execute(thread);
+		}
+		scheduledThreadPool.shutdown();
+	}
+	
+	
 	public CachedThreadPool() {
 		// TODO Auto-generated constructor stub
 	}
@@ -83,6 +109,8 @@ public class CachedThreadPool {
 				e.printStackTrace();
 			}
 		}
+		
+		System.out.println("执行完的总任务数:" + executor.getCompletedTaskCount());
 		executor.shutdown();
 	}
 	
