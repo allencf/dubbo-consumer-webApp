@@ -3,6 +3,7 @@ package com.allen.test.thread;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -42,7 +43,17 @@ public class CachedThreadPool {
 	http://blog.csdn.net/java2000_wl/article/details/22097059
 	http://blog.csdn.net/cutesource/article/details/6061229
 	http://blog.csdn.net/xieyuooo/article/details/8718741
+	
+	
+	RejectedExecutionHandler：饱和策略
+	当队列和线程池都满了，说明线程池处于饱和状态，那么必须对新提交的任务采用一种特殊的策略来进行处理。这个策略默认配置是AbortPolicy，表示无法处理新的任务而抛出异常。JAVA提供了4中策略：
+	1、AbortPolicy：直接抛出异常
+	2、CallerRunsPolicy：只用调用所在的线程运行任务
+	3、DiscardOldestPolicy：丢弃队列里最近的一个任务，并执行当前任务。
+	4、DiscardPolicy：不处理，丢弃掉。
+	我们现在用第四种策略来处理上面的程序：
 	*/
+	
 	
 	//获取CPU数
 	//private static final int CORE_POOL_SIZE = Runtime.getRuntime().availableProcessors() * 2; // 核心线程数为 CPU 数＊2
@@ -93,9 +104,11 @@ public class CachedThreadPool {
 	
 	
 	public static void threadPoolTest() {
-		ThreadPoolExecutor executor = new ThreadPoolExecutor(10, 20, 200, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<>(5));
-		for (int i = 1; i <= 20; i++) {
+		RejectedExecutionHandler reject = new ThreadPoolExecutor.AbortPolicy();
+		ThreadPoolExecutor executor = new ThreadPoolExecutor(10, 20, 200, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<>(10) ,reject);
+		for (int i = 1; i <= 40; i++) {
 			RunnableThread1 thread = new RunnableThread1(i);
+			System.out.println("当前线程池待执行的线任务数:" + executor.getQueue().size());
 			executor.execute(thread);
 			System.out.println(
 					"线程池中线程数目:" + executor.getPoolSize() + 
@@ -104,13 +117,13 @@ public class CachedThreadPool {
 					"  队列中已执行完的任务数目:" + executor.getCompletedTaskCount() + 
 					"  ------------------------------------------------------------");
 			try {
-				//Thread.sleep(1500);
+				//Thread.sleep(1000);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		
-		System.out.println("执行完的总任务数:" + executor.getCompletedTaskCount());
+		
 		executor.shutdown();
 	}
 	
@@ -121,7 +134,11 @@ public class CachedThreadPool {
 		//singleThreadPoolMethod();
 		//打印服务器CPU核心数
 		//System.out.println("服务器CPU数：" + Runtime.getRuntime().availableProcessors());
-		threadPoolTest();
+		//threadPoolTest();
+		
+		String path = System.getProperty("user.dir");
+		System.out.println(path);
+		
 	}
 
 }
