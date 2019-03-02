@@ -1,6 +1,5 @@
 package com.allen.utils;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -875,7 +874,7 @@ public abstract class Strings extends StringUtils {
    
     
     public static void main(String[] args) {
-    	String s = Strings.encode2UnicodeString("在字符串右侧填充一定数量的特殊字符abcd");
+    	//String s = Strings.encode2UnicodeString("在字符串右侧填充一定数量的特殊字符abcd");
     	//Sys.println(s);
     	//Sys.println(Strings.decodeUnicodeString(s));
     }

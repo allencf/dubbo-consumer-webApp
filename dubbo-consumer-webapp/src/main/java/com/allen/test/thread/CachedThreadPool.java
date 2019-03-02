@@ -7,6 +7,9 @@ import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
+
+import org.apache.commons.lang3.concurrent.ConcurrentUtils;
 
 public class CachedThreadPool {
 	
@@ -138,6 +141,11 @@ public class CachedThreadPool {
 		
 		String path = System.getProperty("user.dir");
 		System.out.println(path);
+		
+		//ReentrantLock;
+		
+		ConcurrentUtils.constantFuture(null);
+		
 		
 	}
 
