@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import net.sf.json.JSON;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
@@ -14,6 +13,8 @@ public class Test implements Serializable{
 	
 	private static final long serialVersionUID = -664804447927442405L;
 
+	private Object obj;
+	
 	private String name;
 	
 	private Date updateTime;
@@ -95,7 +96,7 @@ public class Test implements Serializable{
 		
 		//Math.round(12.376*Math.round(10.2))/Math.round(10.2);	
 		
-		List<Test> list = new ArrayList<>();
+		/*List<Test> list = new ArrayList<>();
 		Test test = new Test();
 		test.setName("");
 		test.setUpdateTime(null);
@@ -106,7 +107,8 @@ public class Test implements Serializable{
 		
 		JSON json = JSONSerializer.toJSON(object);
 		
-		System.out.println(json);
+		System.out.println(json);*/
+		String s = "";
 		
 	}
 
