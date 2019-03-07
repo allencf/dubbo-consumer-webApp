@@ -22,13 +22,12 @@ public class SerializableUtil {
 	 * JAVA有哪些实现序列化的方式
 	 * 1、serializable
 	 * 2、ObjectOutPutStream
-	 * 
 	 */
 	
 	
 	
 	public void serializableMethod() {
-		
+	
 	}
 	
 	public void objcectOutPutStreamMethod() {
