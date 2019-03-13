@@ -22,12 +22,17 @@ public class DynamicProxyFactory {
 	}
 	
 	public Object getProxyInstance () {
-		return Proxy.newProxyInstance(target.getClass().getClassLoader(), target.getClass().getInterfaces(), 
-			new InvocationHandler() {
+		return Proxy.newProxyInstance(
+				target.getClass().getClassLoader(), 
+				target.getClass().getInterfaces(), 
+				new InvocationHandler() {
 			
 			@Override
 			public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-				Object resultObject = method.invoke(proxy, args);
+				//执行目标对象的方法
+				System.out.println("开始执行动态代理方法");
+				Object resultObject = method.invoke(target, args);
+				System.out.println("执行动态代理方法结束");
 				return resultObject;
 			}
 		});

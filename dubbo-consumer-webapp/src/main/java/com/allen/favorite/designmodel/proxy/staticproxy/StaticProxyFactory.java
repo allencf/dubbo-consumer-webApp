@@ -30,4 +30,12 @@ public class StaticProxyFactory implements Network {
 		network.browse();
 	}
 
+	@Override
+	public void close() {
+		System.out.println("使用代理类访问代理目标!");
+		network.close();
+	}
+	
+	
+
 }

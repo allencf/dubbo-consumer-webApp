@@ -17,4 +17,12 @@ public class NetworkAip implements Network {
 		System.out.println("to browse the web !");
 	}
 
+	
+	@Override
+	public void close() {
+		System.out.println("colse browe the web !");
+	}
+	
+	
+
 }

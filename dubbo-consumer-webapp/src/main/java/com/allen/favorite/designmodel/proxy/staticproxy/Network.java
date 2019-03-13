@@ -15,5 +15,10 @@ public interface Network {
 	 * 定义个浏览的方法
 	 */
 	public void browse();
+	
+	/**
+	 * 关闭浏览
+	 */
+	public void close();
 
 }

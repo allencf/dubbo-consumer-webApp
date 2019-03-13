@@ -1,5 +1,9 @@
 package com.allen.favorite.designmodel.proxy;
 
+import com.allen.favorite.designmodel.proxy.cglibproxy.CglibProxyFactory;
+import com.allen.favorite.designmodel.proxy.cglibproxy.Person;
+import com.allen.favorite.designmodel.proxy.dynamicproxy.DynamicProxyFactory;
+import com.allen.favorite.designmodel.proxy.staticproxy.Network;
 import com.allen.favorite.designmodel.proxy.staticproxy.NetworkAip;
 import com.allen.favorite.designmodel.proxy.staticproxy.StaticProxyFactory;
 
@@ -20,9 +24,21 @@ public class ProxyFactoryTest {
 		StaticProxyFactory proxy = new StaticProxyFactory(newwork);
 		proxy.browse();
 		
-		//动态工厂
 		
-
+		//动态工厂
+		Network target = new NetworkAip();  //目标对象
+		//System.out.println(target.getClass());
+		//给目标对象创建代理对象
+		Network dynamicProxy = (Network) new DynamicProxyFactory(target).getProxyInstance();
+		//System.out.println(dynamicProxy.getClass());
+		dynamicProxy.browse();
+		
+		//cglib工厂
+		Person cgtarget = new Person();
+		Person cglibProxy = (Person) new CglibProxyFactory(cgtarget).getProxyInstance();
+		cglibProxy.say();
+		
+		
 	}
 
 }
