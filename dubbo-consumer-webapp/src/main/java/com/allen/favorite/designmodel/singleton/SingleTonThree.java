@@ -3,24 +3,28 @@ package com.allen.favorite.designmodel.singleton;
 
 /**
  * 
- * 单例简单实现 -- 饿汉模式
+ * 单例简单实现 -- 优化版
  * All rights Reserved, Designed By HQYG
  * Copyright:   Copyright(C) 2016
  * Company:     HQYG.
  * author:      allen
  * Createdate:  2019年3月12日下午5:36:52
  */
-public class SingleTonTwo {
+public class SingleTonThree {
 
-	private static SingleTonTwo instance = new SingleTonTwo();
+	private static SingleTonThree instance = new SingleTonThree();
 	
-	private SingleTonTwo() {
+	private SingleTonThree() {
 		
 	}
 	
-	public static SingleTonTwo getInstance() {
+	public static SingleTonThree getInstance() {
 		if (instance == null) {
-			instance = new SingleTonTwo();
+			synchronized (SingleTonThree.class){
+				if (instance == null) {
+					instance = new SingleTonThree();
+				}
+			}
 		}
 		return instance;
 	}
