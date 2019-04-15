@@ -39,7 +39,7 @@ public class DateUtil {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(getDateStringToTimeStamp("2019-04-10","yyyy-MM-dd"));
+		System.out.println(getDateStringToTimeStamp("2037-04-10","yyyy-MM-dd"));
 		//System.out.println(getTimeStampToDate(1554092725000L));
 	}
 
