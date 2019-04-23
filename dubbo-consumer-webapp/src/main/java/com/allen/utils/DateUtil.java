@@ -10,7 +10,7 @@ public class DateUtil {
 	 * 时间字符串转时间戳(精确到秒)
 	 * @return
 	 */
-	public static Integer getDateStringToTimeStamp(String date,String format) {
+	public static Long getDateStringToTimeStamp(String date,String format) {
 		if (StringUtils.isBlank(date))
 			return null;
 		
@@ -18,7 +18,7 @@ public class DateUtil {
 		try {
 			Date data = sf.parse(date);
 			String dateStr = String.valueOf(data.getTime()).substring(0, 10);
-			return Integer.valueOf(dateStr);
+			return Long.valueOf(dateStr);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -39,8 +39,11 @@ public class DateUtil {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(getDateStringToTimeStamp("2037-04-10","yyyy-MM-dd"));
-		//System.out.println(getTimeStampToDate(1554092725000L));
+		System.out.println(getDateStringToTimeStamp("2019-04-22 19:05:00","yyyy-MM-dd HH:mm:ss"));
+		//System.out.println(getTimeStampToDate(Long.parseLong("2185977600"+"000"),"yyyy-MM-dd"));
+	
+		//Date data = new Date();
+		//System.out.println(data.getTime());
 	}
 
 }

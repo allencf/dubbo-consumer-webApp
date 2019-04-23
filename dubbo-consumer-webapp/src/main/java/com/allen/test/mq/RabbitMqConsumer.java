@@ -15,6 +15,7 @@ public class RabbitMqConsumer {
 	
 	private static final String EXCHANGE_NAME = "amq.direct";
 	
+	static int count = 0;
 	
 	public static void sendMessage () throws Exception{
 		  ConnectionFactory connectionFactory = new ConnectionFactory();
@@ -125,10 +126,60 @@ public class RabbitMqConsumer {
 
 	}
 	
+	
+	public static void consumeFanoutMessage (String vhost,String exchangeName,String type,String queueName) {
+		try {
+			ConnectionFactory connectionFactory = new ConnectionFactory();
+	        connectionFactory.setHost("10.60.34.84");
+	        connectionFactory.setPort(5672);
+	        connectionFactory.setVirtualHost(vhost);
+	        connectionFactory.setUsername("admin");
+	        connectionFactory.setPassword("admin@hqyg");
+	        Connection connection = connectionFactory.newConnection();
+	        Channel channel = connection.createChannel();
+	        channel.exchangeDeclare(exchangeName, type ,true);
+	        //queueName = channel.queueDeclare().getQueue();
+	        channel.queueBind(queueName, exchangeName , queueName);
+
+	        System.out.println(" ---【开始接收消息，退出请按CTRL+C】---");
+	        //从队列中异步获取消息，DefaultConsumer会设置一个回调来缓存消息。
+	        Consumer consumer = new DefaultConsumer(channel) {
+	            @Override
+	            public void handleDelivery(String consumerTag, Envelope envelope,
+	                                       AMQP.BasicProperties properties, byte[] body)
+	                   {
+	                try {
+	                	String message = new String(body, "UTF-8");
+		                System.out.println("Consumer获取消息：" + message );
+		                count ++;
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+	            }
+	        };
+	        channel.basicConsume(queueName, true, consumer);
+	        
+	        
+	        Thread.sleep(5000);
+	        System.out.println("-------消息总条数:" + count);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 
 	public static void main(String[] args) {
 		try {
+			//consumeDirectMessage();
+			String vhost =  "SOA_PROVIDER";
+			String exchagneType = "fanout";
+			String exchangeName = "shopOpenEventPublish";
+			String queueName = "shopOpenEventSubscribe_CESHOP";
+			//consumeFanoutMessage(vhost, exchangeName, exchagneType ,queueName);
+			
 			consumeDirectMessage();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
