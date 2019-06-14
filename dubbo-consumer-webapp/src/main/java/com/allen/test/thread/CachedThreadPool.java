@@ -7,8 +7,6 @@ import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReentrantLock;
-
 import org.apache.commons.lang3.concurrent.ConcurrentUtils;
 
 public class CachedThreadPool {
@@ -16,13 +14,40 @@ public class CachedThreadPool {
 	//https://www.cnblogs.com/aaron911/p/6213808.html
 	//https://blog.csdn.net/mine_song/article/details/70948223
 	
+	/**
+	 * 没有核心线程，直接向 SynchronousQueue 中提交任务
+              如果有空闲线程，就去取出任务执行；如果没有空闲线程，就新建一个
+              执行完任务的线程有 60 秒生存时间，如果在这个时间内可以接到新任务，就可以继续活下去，否则就拜拜
+              由于空闲 60 秒的线程会被终止，长时间保持空闲的 CachedThreadPool 不会占用任何资源。
+       CachedThreadPool 用于并发执行大量短期的小任务，或者是负载较轻的服务器。
+	 */
 	private static ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
 	
+	/**
+	 * 固定核心线程数的线程池因此这个线程池执行任务的流程如下：
+	      线程数少于核心线程数，也就是设置的线程数时，新建线程执行任务
+              线程数等于核心线程数后，将任务加入阻塞队列 
+              由于队列容量非常大，可以一直加加加
+              执行完任务的线程反复去队列中取任务执行
+       FixedThreadPool 用于负载比较重的服务器，为了资源的合理利用，需要限制当前线程数量。
+	 */
 	private static ExecutorService fixCachedThreadPool = Executors.newFixedThreadPool(3);
 	
+	
+	/**
+	 * 线程数少于核心线程数，也就是设置的线程数时，新建线程执行任务
+	      线程数等于核心线程数后，将任务加入阻塞队列 
+              由于队列容量非常大，可以一直加加加
+              执行完任务的线程反复去队列中取任务执行
+       FixedThreadPool 用于负载比较重的服务器，为了资源的合理利用，需要限制当前线程数量
+	 */
 	private static ExecutorService singleThreadPool = Executors.newSingleThreadExecutor();
 	
+	
+	
 	private static ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(2);
+	
+	
 	
 	/*
 	https://www.cnblogs.com/dolphin0520/p/3932921.html
@@ -146,6 +171,8 @@ public class CachedThreadPool {
 		
 		ConcurrentUtils.constantFuture(null);
 		
+		String key = "member.GB.userInfo.34972";
+		System.out.println(key.getBytes());
 		
 	}
 

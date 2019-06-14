@@ -10,7 +10,6 @@ public class ThreadLocalTest extends Thread{
 	}
 
 	
-	@Override
 	public void run() {
 		for (int i = 0; i < 3; i++) {
 			System.out.println("threadName:"+Thread.currentThread().getName() + "--sn:" + seqNum.getNextNum());
@@ -19,8 +18,10 @@ public class ThreadLocalTest extends Thread{
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		SequenceNumber se = new SequenceNumber();
+		
+		ThreadLocalTest thread = new ThreadLocalTest(se);
+		thread.start();
 	}
 
 }
