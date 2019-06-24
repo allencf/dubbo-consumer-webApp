@@ -38,11 +38,11 @@
         
         
         <!-- dubbo测试服务依赖 -->
-        <dependency>
+        <!-- <dependency>
         	<groupId>com.allen.dubbo</groupId>
         	<artifactId>allen-dubbo-provider-service</artifactId>
         	<version>1.0.0</version>
-        </dependency>
+        </dependency> -->
         
         <!-- dubbo依赖 -->
 	  	<dependency>
@@ -233,11 +233,11 @@
 	    </dependency>
 	    
 	    <!-- application event 依赖 -->
-	    <dependency>
+	    <!-- <dependency>
 	         <groupId>com.allen.commons</groupId>
 	         <artifactId>allen-commons-application-event</artifactId>
 	         <version>1.0.0-SNAPSHOT</version>
-	    </dependency>
+	    </dependency> -->
 	    
 	    <!-- Redis依赖 -->
 	    <dependency>

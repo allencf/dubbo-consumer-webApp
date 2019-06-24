@@ -1,4 +1,4 @@
-package com.allen.controller;
+/*package com.allen.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,8 +30,8 @@ public class TestController {
 	String zkAddress;
 	
 	//dubbo注解方式
-	/*@Reference(version = "1.0.0")
-	private DubboTestService dubboTestService;*/
+	@Reference(version = "1.0.0")
+	private DubboTestService dubboTestService;
 	
 	@Autowired
 	private DubboTestService dubboTestService;
@@ -98,3 +98,4 @@ public class TestController {
 	}
 
 }
+*/
