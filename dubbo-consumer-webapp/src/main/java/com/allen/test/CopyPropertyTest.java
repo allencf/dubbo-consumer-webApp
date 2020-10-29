@@ -1,6 +1,10 @@
 package com.allen.test;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import org.apache.commons.beanutils.BeanUtils;
 
 public class CopyPropertyTest {
@@ -14,6 +18,32 @@ public class CopyPropertyTest {
 		Bean2 bean2 = new Bean2();
 		BeanUtils.copyProperties(bean2, bean1);
 		System.out.println(bean2.toString());
+		
+		
+		ReentrantLock look = new ReentrantLock();
+		Condition c1 = look.newCondition();
+		
+		//加锁
+		look.lock();
+		
+		try {
+			//阻塞线程
+			c1.await();
+			
+			//响应中断
+			look.lockInterruptibly();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			//唤醒线程
+			c1.signal();
+			
+			//解锁
+			look.unlock();
+		}
+		
+		
 	}
 }
 

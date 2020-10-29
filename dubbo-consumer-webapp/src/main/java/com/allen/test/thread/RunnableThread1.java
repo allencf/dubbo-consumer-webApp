@@ -18,6 +18,7 @@ public class RunnableThread1 implements Runnable{
 		this.num = num;
 		//Thread.currentThread().setName("RunableThread1-"+num);
 		//logger.info("create thread-"+num);
+		//run();
 	}
 
 	@Override
@@ -25,7 +26,8 @@ public class RunnableThread1 implements Runnable{
 		try {
 			//Thread.sleep(2000);
 			String currentName = Thread.currentThread().getName();
-			//logger.info("num:"+num +"--name is:" + currentName + " is run………");
+			System.out.println("currentName:" + currentName);
+			logger.info("num:"+num +"--name is:" + currentName + " is run………");
 		} catch (Exception e) {
 			logger.error("线程执行异常,异常信息:"+e.getMessage(),e);
 		}
@@ -33,7 +35,9 @@ public class RunnableThread1 implements Runnable{
 	}
 
 	public static void main(String[] args) {
-
+		RunnableThread1 rt = new RunnableThread1(1);
+		Thread th = new Thread(rt);
+		th.start();
 	}
 
 }
