@@ -110,6 +110,10 @@ public class Test implements Serializable{
 		System.out.println(json);*/
 		String s = "";
 		
+		int i = 1;
+		//System.out.println("i++ :" + i++ + ",i:" + i);
+		System.out.println("++i :" + ++i + ",i" + i);
+		
 	}
 
 }
