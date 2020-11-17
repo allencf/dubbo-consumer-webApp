@@ -18,13 +18,18 @@ public abstract class Test2 extends Test {
 	public abstract  void  test1();
 	
 	
+	public static void test3() {
+		int a = 1000;
+		int b = 1000;
+		System.out.println(a == b);
+		
+	}
+	
 	
 	public abstract void test();
 	
 	public static void main(String[] args) {
-		synchronized (args) {
-			
-		}
+		test3();
 	}
 
 }

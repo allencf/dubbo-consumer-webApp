@@ -55,6 +55,27 @@ public class Test implements Serializable{
 		}
 		return value;
 	}
+	
+	public static void erweiShuzu () {
+		int[][] args = {{1,2,3},{4,5,6}};
+		
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 3; j++) {
+				System.out.print(args[i][j]+" ");
+			}
+			System.out.println();
+		}
+		
+	}
+	
+	public static void yiweiShuzu () {
+		int[] args = new int[9];
+		for (int i = 0; i < args.length; i++) {
+			System.out.println(args[i]);
+			
+		}
+		
+	}
 
 
 	public static void main(String[] args) {
@@ -100,7 +121,7 @@ public class Test implements Serializable{
 		Test test = new Test();
 		test.setName("");
 		test.setUpdateTime(null);
-		list.add(test);
+		list.add(test);i 
 		
 		JSONObject object = new JSONObject();
 		object.put("data", list);
@@ -112,8 +133,9 @@ public class Test implements Serializable{
 		
 		int i = 1;
 		//System.out.println("i++ :" + i++ + ",i:" + i);
-		System.out.println("++i :" + ++i + ",i" + i);
-		
+		//System.out.println("++i :" + ++i + ",i" + i);
+		//erweiShuzu();
+		yiweiShuzu();
 	}
 
 }
