@@ -77,6 +77,9 @@ public class Test implements Serializable{
 		
 	}
 
+	protected void test2() {
+		
+	}
 
 	public static void main(String[] args) {
 		/*int i = 0x00000001;
