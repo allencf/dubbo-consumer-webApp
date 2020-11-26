@@ -20,7 +20,7 @@ public class Zixuhe {
 	}
 	
 	public static void main(String[] args) {
-		int[] array = {-3,1,2,-2,4,-5,3};
+		int[] array = { -3, 1, 2, -2, 4, -5, 3};
 		System.out.println(subLation(array));
 	}
 
